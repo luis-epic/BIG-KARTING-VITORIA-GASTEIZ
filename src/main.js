@@ -56,13 +56,13 @@ if (canvas) {
           // Base: negro profundo con tono muy sutil a azul marino
           vec3 dark = vec3(0.010, 0.010, 0.016);
 
-          // Glow rojo firma BigKarting — muy sutil, solo debajo del kart
+          // Glow naranja firma BigKarting — muy sutil, solo debajo del kart
           float glowY  = smoothstep(0.5, 0.0, uv.y);          // solo mitad inferior
           float glowX  = 1.0 - smoothstep(0.0, 0.35, abs(centered.x));
           float pulse   = 0.8 + 0.2 * sin(uTime * 0.4);       // leve pulso
-          vec3 redGlow = vec3(0.09, 0.0, 0.01) * glowY * glowX * pulse;
+          vec3 orangeGlow = vec3(0.12, 0.04, 0.0) * glowY * glowX * pulse;
 
-          vec3 col = dark + redGlow;
+          vec3 col = dark + orangeGlow;
           col *= mix(0.25, 1.0, vignette);   // oscurecer bordes
           gl_FragColor = vec4(col, 1.0);
         }
@@ -86,10 +86,10 @@ if (canvas) {
     floor.receiveShadow = true;
     scene.add(floor);
 
-    // Línea de luz roja en el suelo (efecto split-lighting profesional)
+    // Línea de luz naranja en el suelo (efecto split-lighting profesional)
     const stripGeom = new THREE.PlaneGeometry(0.04, 22);
     const stripMat = new THREE.MeshBasicMaterial({
-      color: 0xe8001e,
+      color: 0xff5a00,
       transparent: true,
       opacity: 0.55,
     });
@@ -119,8 +119,8 @@ if (canvas) {
     fillLight.position.set(-6, 3, 2);
     scene.add(fillLight);
 
-    // 3. Borde/Rim — contraluz rojo desde atrás (firma de marca BigKarting)
-    const rimLight = new THREE.PointLight(0xff0a28, 8.0, 18);
+    // 3. Borde/Rim — contraluz naranja desde atrás (firma de marca BigKarting)
+    const rimLight = new THREE.PointLight(0xff5a00, 8.0, 18);
     rimLight.position.set(0, 1.5, -4.5);
     scene.add(rimLight);
 
@@ -203,7 +203,7 @@ if (canvas) {
     // Función de Respaldo Failsafe (Procedural Kart)
     function buildProceduralFallback() {
       const neonRedMat = new THREE.MeshBasicMaterial({ 
-        color: 0xe8001e, 
+        color: 0xff5a00, 
         wireframe: true, 
         transparent: true, 
         opacity: 0.95 
@@ -318,7 +318,7 @@ if (canvas) {
     // Cargar modelo real GLTF/GLB
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(
-      '/models/go-kart.glb',
+      '/models/go-kart 3d model.glb',
       (gltf) => {
         clearTimeout(loadTimeout);
         if (hasLoadedModel) return;
@@ -357,7 +357,7 @@ if (canvas) {
               // Añadir emisividad para partes incandescentes/neon
               const name = child.name.toLowerCase();
               if (name.includes('neon') || name.includes('glow') || name.includes('led') || name.includes('luz')) {
-                child.material.emissive = child.material.color || new THREE.Color(0xe8001e);
+                child.material.emissive = child.material.color || new THREE.Color(0xff5a00);
                 child.material.emissiveIntensity = 2.5;
               }
             }
@@ -405,7 +405,7 @@ if (canvas) {
     // Halo de neón en el suelo bajo el kart
     const haloGeom = new THREE.RingGeometry(0.6, 2.2, 32);
     const haloMat = new THREE.MeshBasicMaterial({
-      color: 0xe8001e,
+      color: 0xff5a00,
       transparent: true,
       opacity: 0.18,
       side: THREE.DoubleSide,
