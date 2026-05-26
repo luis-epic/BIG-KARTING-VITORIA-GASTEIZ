@@ -6,10 +6,51 @@ import './style.css';
 document.documentElement.classList.add('js');
 
 // ==========================================
+// INTERACTIVIDAD DEL MENÚ HAMBURGUESA MÓVIL
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburger = document.querySelector('.nav-hamburger');
+  const mobileMenu = document.querySelector('.nav-mobile-menu');
+  const mobileLinks = document.querySelectorAll('.nav-mobile-links a');
+
+  if (hamburger && mobileMenu) {
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
+    });
+
+    // Cerrar menú al hacer clic en un enlace móvil
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+      });
+    });
+
+    // Cerrar menú al hacer clic fuera del panel drawer
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+      }
+    });
+  }
+});
+
+// ==========================================
 // 1. ESCENA 3D WEBGL (THREE.JS GLOBAL)
 // ==========================================
 const canvas = document.getElementById('hero-canvas');
 if (canvas) {
+  // Detectar subpágina para posicionar y redimensionar el lienzo 3D
+  const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html' || window.location.pathname.endsWith('/');
+  if (!isHomePage) {
+    document.body.classList.add('is-subpage');
+    if (window.location.pathname.includes('legal')) {
+      document.body.classList.add('legal');
+    }
+  }
   try {
     const scene = new THREE.Scene();
     // Niebla lineal limpia — funde el vacío detrás del kart sin bordes
@@ -137,22 +178,30 @@ if (canvas) {
 
     const wheels = [];
 
-    // Inyectar Pantalla de Carga HUD limpia
+    // Inyectar Pantalla de Carga HUD limpia (solo en la página de inicio para evitar pantallazos negros en subpáginas)
+    const isHomePage = window.location.pathname === '/' || window.location.pathname === '/index.html' || window.location.pathname.endsWith('/');
     let loaderEl = document.getElementById('cyber-loader');
-    if (!loaderEl) {
-      loaderEl = document.createElement('div');
-      loaderEl.id = 'cyber-loader';
-      loaderEl.innerHTML = `
-        <div class="loader-container">
-          <div style="text-align: center;"><img src="/logo-negro.jpg" class="loader-logo-img" alt="Big Karting Vitoria-Gasteiz"></div>
-          <div class="loader-status" id="loader-status">INICIALIZANDO MOTOR GRÁFICO...</div>
-          <div class="loader-bar-wrap">
-            <div class="loader-bar" id="loader-bar"></div>
+    if (isHomePage) {
+      if (!loaderEl) {
+        loaderEl = document.createElement('div');
+        loaderEl.id = 'cyber-loader';
+        loaderEl.innerHTML = `
+          <div class="loader-container">
+            <div style="text-align: center;"><img src="/logo-negro.jpg" class="loader-logo-img" alt="Big Karting Vitoria-Gasteiz"></div>
+            <div class="loader-status" id="loader-status">INICIALIZANDO MOTOR GRÁFICO...</div>
+            <div class="loader-bar-wrap">
+              <div class="loader-bar" id="loader-bar"></div>
+            </div>
+            <div class="loader-percentage" id="loader-percentage">0%</div>
           </div>
-          <div class="loader-percentage" id="loader-percentage">0%</div>
-        </div>
-      `;
-      document.body.appendChild(loaderEl);
+        `;
+        document.body.appendChild(loaderEl);
+      }
+    } else {
+      if (loaderEl) {
+        loaderEl.remove();
+        loaderEl = null;
+      }
     }
 
     const loaderBar = document.getElementById('loader-bar');
@@ -178,9 +227,8 @@ if (canvas) {
     // Timeout de seguridad de 15 segundos
     const loadTimeout = setTimeout(() => {
       if (!hasLoadedModel) {
-        console.warn("La carga del modelo 3D GLB excedió el tiempo límite. Activando fallback procedural...");
+        console.warn("La carga del modelo 3D GLB excedió el tiempo límite. Cerrando loader...");
         hasLoadedModel = true;
-        buildProceduralFallback();
         removeLoader();
       }
     }, 15000);
@@ -198,122 +246,7 @@ if (canvas) {
       }, 600);
     }
 
-    // Función de Respaldo Failsafe (Procedural Kart)
-    function buildProceduralFallback() {
-      const neonRedMat = new THREE.MeshBasicMaterial({ 
-        color: 0xff5a00, 
-        wireframe: true, 
-        transparent: true, 
-        opacity: 0.95 
-      });
-      
-      const neonYellowMat = new THREE.MeshBasicMaterial({ 
-        color: 0xf5c800, 
-        wireframe: true,
-        transparent: true,
-        opacity: 0.95 
-      });
-
-      const darkTireMat = new THREE.MeshBasicMaterial({
-        color: 0x222222,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.5
-      });
-
-      // A. Chasis Base
-      const baseGeom = new THREE.BoxGeometry(3.2, 0.1, 1.2);
-      const baseFrame = new THREE.Mesh(baseGeom, neonRedMat);
-      kartGroup.add(baseFrame);
-
-      // B. Side Pods
-      const podGeom = new THREE.BoxGeometry(1.6, 0.35, 0.15);
-      const leftPod = new THREE.Mesh(podGeom, neonRedMat);
-      leftPod.position.set(0.1, 0.15, 0.65);
-      const rightPod = leftPod.clone();
-      rightPod.position.z = -0.65;
-      kartGroup.add(leftPod, rightPod);
-
-      // C. Morro delantero
-      const noseGeom = new THREE.BoxGeometry(0.8, 0.2, 0.9);
-      const nose = new THREE.Mesh(noseGeom, neonRedMat);
-      nose.position.set(1.4, 0.05, 0);
-      
-      const frontBumperGeom = new THREE.BoxGeometry(0.2, 0.2, 1.5);
-      const frontBumper = new THREE.Mesh(frontBumperGeom, neonRedMat);
-      frontBumper.position.set(1.8, 0.05, 0);
-      kartGroup.add(nose, frontBumper);
-
-      // D. Volante
-      const columnGeom = new THREE.CylinderGeometry(0.03, 0.03, 0.8, 8);
-      const column = new THREE.Mesh(columnGeom, neonRedMat);
-      column.position.set(0.5, 0.35, 0);
-      column.rotation.z = -Math.PI / 4;
-      
-      const wheelGeom = new THREE.TorusGeometry(0.24, 0.04, 6, 16);
-      const steeringWheel = new THREE.Mesh(wheelGeom, neonYellowMat);
-      steeringWheel.position.set(0.78, 0.62, 0);
-      steeringWheel.rotation.y = Math.PI / 2;
-      steeringWheel.rotation.x = Math.PI / 4;
-      kartGroup.add(column, steeringWheel);
-
-      // E. Asiento
-      const seatBaseGeom = new THREE.BoxGeometry(0.7, 0.08, 0.7);
-      const seatBase = new THREE.Mesh(seatBaseGeom, neonYellowMat);
-      seatBase.position.set(-0.3, 0.08, 0);
-      
-      const seatBackGeom = new THREE.BoxGeometry(0.08, 0.75, 0.7);
-      const seatBack = new THREE.Mesh(seatBackGeom, neonYellowMat);
-      seatBack.position.set(-0.62, 0.42, 0);
-      seatBack.rotation.z = -0.22;
-      kartGroup.add(seatBase, seatBack);
-
-      // F. Motor y Escape
-      const engineGeom = new THREE.BoxGeometry(0.65, 0.55, 0.55);
-      const engine = new THREE.Mesh(engineGeom, neonYellowMat);
-      engine.position.set(-1.1, 0.25, 0.2);
-      
-      const pipeGeom = new THREE.CylinderGeometry(0.04, 0.04, 0.7, 8);
-      const pipe = new THREE.Mesh(pipeGeom, neonRedMat);
-      pipe.position.set(-1.5, 0.45, -0.25);
-      pipe.rotation.z = Math.PI / 2;
-      kartGroup.add(engine, pipe);
-
-      // G. Parachoques trasero
-      const rearBumperGeom = new THREE.BoxGeometry(0.15, 0.22, 1.6);
-      const rearBumper = new THREE.Mesh(rearBumperGeom, neonRedMat);
-      rearBumper.position.set(-1.7, 0.1, 0);
-      kartGroup.add(rearBumper);
-
-      // H. Ruedas
-      const tireGeom = new THREE.CylinderGeometry(0.52, 0.52, 0.45, 12);
-      tireGeom.rotateX(Math.PI / 2);
-      
-      const rimGeom = new THREE.TorusGeometry(0.32, 0.08, 6, 12);
-      rimGeom.rotateY(Math.PI / 2);
-
-      const wheelPositions = [
-        { x: 1.0, y: -0.1, z: 0.8 },
-        { x: 1.0, y: -0.1, z: -0.8 },
-        { x: -0.9, y: -0.1, z: 0.85 },
-        { x: -0.9, y: -0.1, z: -0.85 }
-      ];
-
-      wheelPositions.forEach(pos => {
-        const wheelGroup = new THREE.Group();
-        wheelGroup.position.set(pos.x, pos.y, pos.z);
-        wheelGroup.isProcedural = true;
-        
-        const tire = new THREE.Mesh(tireGeom, darkTireMat);
-        const rim = new THREE.Mesh(rimGeom, neonYellowMat);
-        
-        wheelGroup.add(tire, rim);
-        kartGroup.add(wheelGroup);
-        wheels.push(wheelGroup);
-      });
-    }
-
-    // Cargar modelo real GLTF/GLB
+    // Cargar modelo real GLTF/GLB de go-karting fotorrealista en todos los dispositivos
     const gltfLoader = new GLTFLoader();
     gltfLoader.load(
       '/models/go-kart 3d model.glb',
@@ -353,6 +286,7 @@ if (canvas) {
           if (child.isMesh) {
             child.castShadow = true;
             child.receiveShadow = true;
+            child.frustumCulled = false; // Desactivar culling para forzar pre-carga total en la GPU y evitar tirones al rotar la cámara
 
             if (child.material) {
               child.material.roughness = 0.15;
@@ -384,6 +318,15 @@ if (canvas) {
         kartGroup.add(modelContainer);
         console.log(`Modelo 3D cargado con éxito. Ruedas animables: ${wheels.length}`);
 
+        // Pre-compilar y pre-renderizar una vez de forma diferida fuera del loop principal para evitar bloquear la carga inicial y eliminar violaciones de rendimiento
+        setTimeout(() => {
+          if (renderer && scene && camera && canvas) {
+            renderer.compile(scene, camera);
+            renderer.render(scene, camera);
+            canvas.classList.add('visible');
+          }
+        }, 100);
+
         updateLoader(100, "CONEXIÓN ESTABLECIDA");
         removeLoader();
       },
@@ -399,7 +342,7 @@ if (canvas) {
         clearTimeout(loadTimeout);
         if (!hasLoadedModel) {
           hasLoadedModel = true;
-          buildProceduralFallback();
+          canvas.classList.add('visible');
           removeLoader();
         }
       }
@@ -542,11 +485,47 @@ if (canvas) {
       targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
     });
 
-    window.addEventListener('scroll', () => {
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (docHeight > 0) {
-        scrollPercent = window.scrollY / docHeight;
+    const heroEl = document.getElementById('hero');
+    let cachedDocHeight = 0;
+    let isMobile = window.innerWidth <= 900;
+    let heroThreshold = 0;
+    let isCanvasVisible = true; // Caché del estado de visibilidad del lienzo para evitar consultas DOM en caliente
+
+    const recalculatePageMetrics = () => {
+      if (typeof document !== 'undefined') {
+        cachedDocHeight = document.documentElement.scrollHeight - window.innerHeight;
+        isMobile = window.innerWidth <= 900;
+        heroThreshold = heroEl ? heroEl.offsetHeight : (window.innerHeight * 0.5);
       }
+    };
+
+    const updateCanvasVisibility = () => {
+      if (isMobile && canvas) {
+        if (window.scrollY > heroThreshold + 30) {
+          if (isCanvasVisible) {
+            canvas.classList.add('hidden');
+            isCanvasVisible = false;
+          }
+        } else {
+          if (!isCanvasVisible) {
+            canvas.classList.remove('hidden');
+            isCanvasVisible = true;
+          }
+        }
+      } else if (canvas) {
+        // En escritorio siempre visible para el efecto de scroll parallax
+        if (!isCanvasVisible) {
+          canvas.classList.remove('hidden');
+          isCanvasVisible = true;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', () => {
+      if (cachedDocHeight > 0) {
+        scrollPercent = window.scrollY / cachedDocHeight;
+      }
+      updateCanvasVisibility();
     });
 
     const resizeCanvas = () => {
@@ -559,11 +538,17 @@ if (canvas) {
       bgMat.uniforms.uResolution.value.set(rect.width, rect.height);
     };
 
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      recalculatePageMetrics();
+      updateCanvasVisibility();
+    });
     resizeCanvas();
+    recalculatePageMetrics();
+    updateCanvasVisibility();
 
     // === BUCLE DE ANIMACIÓN (INTERPOLACIÓN SCROLL) ===
-    const clock = new THREE.Clock();
+    const startTime = performance.now();
 
     // Variables persistentes para el suavizado Lerp de la cámara (Dron) y físicas de scroll
     let currentCamX = 0;
@@ -580,8 +565,7 @@ if (canvas) {
     function animate() {
       requestAnimationFrame(animate);
 
-      const elapsedTime = clock.getElapsedTime();
-      const time = elapsedTime;
+      const time = (performance.now() - startTime) / 1000;
 
       // Retorno elástico suave a la posición neutra original de scroll
       if (!isDragging) {
@@ -593,11 +577,7 @@ if (canvas) {
 
       // A. Girar ruedas del kart constantemente
       wheels.forEach(wheel => {
-        if (wheel.isProcedural) {
-          wheel.rotation.z -= 0.18;
-        } else {
-          wheel.rotateX(-0.18);
-        }
+        wheel.rotateX(-0.18);
       });
 
       // B. Flujo dinámico del Circuito de Velocidad Infinito (arcos y rejilla)
@@ -643,7 +623,6 @@ if (canvas) {
       speedParticles.geometry.attributes.position.needsUpdate = true;
 
       // D. Cálculo de Órbita de Cámara y Foco según el SCROLL (Idea 1)
-      const isMobile = window.innerWidth <= 900;
       scrollSpeed = scrollPercent - lastScrollPercent;
       lastScrollPercent = scrollPercent;
 
@@ -659,7 +638,7 @@ if (canvas) {
       let targetKartRotX = -scrollSpeed * 8.0;       // Inclinación física de inercia longitudinal al acelerar
       let targetKartRotY = Math.PI - 0.4 + currentMouseX * 0.18; // Giro suave reactivo al ratón (volante)
       let targetKartRotZ = scrollSpeed * 4.0 - currentMouseX * 0.08; // Inclinación lateral
-      let targetScale = 1.0;
+      let targetScale = isMobile ? 0.65 : 1.0;
 
       // Transición fluida por fases de órbita elíptica
       if (scrollPercent < 0.25) {
@@ -676,7 +655,7 @@ if (canvas) {
         targetLookZ = 0;
         
         targetKartRotY = Math.PI - 0.4 + currentMouseX * 0.25;  // parallax más pronunciado
-        targetScale = THREE.MathUtils.lerp(1.0, 0.72, p);
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.65 : 1.0, isMobile ? 0.46 : 0.72, p);
       } else if (scrollPercent >= 0.25 && scrollPercent < 0.55) {
         // FASE 2: MODALIDADES (Acercamiento macro en el motor y pontón derecho)
         const p = (scrollPercent - 0.25) / 0.30;
@@ -691,7 +670,7 @@ if (canvas) {
         targetLookZ = THREE.MathUtils.lerp(0, -0.15, p);
         
         targetKartRotY = THREE.MathUtils.lerp(Math.PI - 0.4, Math.PI - 0.9 + currentMouseX * 0.1, p);
-        targetScale = THREE.MathUtils.lerp(0.72, 0.85, p);
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.46 : 0.72, isMobile ? 0.55 : 0.85, p);
       } else if (scrollPercent >= 0.55 && scrollPercent < 0.85) {
         // FASE 3: DRIFT (Plano rasante bajo desde la parte trasera izquierda)
         const p = (scrollPercent - 0.55) / 0.30;
@@ -706,7 +685,7 @@ if (canvas) {
         targetLookZ = THREE.MathUtils.lerp(-0.15, 0.25, p);
         
         targetKartRotY = THREE.MathUtils.lerp(Math.PI - 0.9, Math.PI / 2.5 + currentMouseX * 0.18, p);
-        targetScale = THREE.MathUtils.lerp(0.85, 0.65, p);
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.55 : 0.85, isMobile ? 0.42 : 0.65, p);
       } else {
         // FASE 4: CONTACTO Y FOOTER (Vuelo cenital directo top-down)
         const p = Math.min((scrollPercent - 0.85) / 0.15, 1.0);
@@ -726,7 +705,7 @@ if (canvas) {
         targetLookZ = THREE.MathUtils.lerp(0.25, 0, p);
         
         targetKartRotY = THREE.MathUtils.lerp(Math.PI / 2.5, Math.PI + currentMouseX * 0.1, p);
-        targetScale = THREE.MathUtils.lerp(0.65, 0.45, p);
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.42 : 0.65, isMobile ? 0.30 : 0.45, p);
       }
 
       // Aplicar amortiguación Lerp tipo Dron a la Cámara y Foco (6% por cuadro)
@@ -760,12 +739,28 @@ if (canvas) {
       currentMouseX += (targetMouseX - currentMouseX) * 0.08;
       currentMouseY += (targetMouseY - currentMouseY) * 0.08;
 
-      camera.position.x = currentCamX + currentMouseX * 1.5;
-      camera.position.y = currentCamY + currentMouseY * 0.8;
-      camera.position.z = currentCamZ;
-      camera.lookAt(currentLookX, currentLookY, currentLookZ);
+      // Ajuste de encuadre en móviles: reducir amplitud horizontal para evitar que el kart salga de la pantalla en vista vertical (portrait)
+      let finalCamX = currentCamX;
+      let finalCamY = currentCamY;
+      let finalLookX = currentLookX;
+      if (isMobile) {
+        finalCamX *= 0.35;
+        finalLookX *= 0.35;
+        // Subir la cámara en la home móvil para empujar visualmente el kart hacia la mitad inferior de la pantalla y no tapar el texto
+        if (isHomePage) {
+          finalCamY += 0.8;
+        }
+      }
 
-      renderer.render(scene, camera);
+      camera.position.x = finalCamX + currentMouseX * (isMobile ? 0.5 : 1.5); // También atenuar paralaje del mouse en móvil
+      camera.position.y = finalCamY + currentMouseY * (isMobile ? 0.3 : 0.8);
+      camera.position.z = currentCamZ;
+      camera.lookAt(finalLookX, currentLookY, currentLookZ);
+
+      // Renderizar solo si no está oculto para ahorrar masivamente recursos de CPU/Batería en móvil
+      if (isCanvasVisible) {
+        renderer.render(scene, camera);
+      }
     }
 
     animate();
@@ -777,13 +772,14 @@ if (canvas) {
 }
 
 // ==========================================
-// 2. CURSOR PERSONALIZADO (LERP) Y OCULTACIÓN DINÁMICA
+// 2. CURSOR PERSONALIZADO (LERP TRIPLE ACELERADO POR GPU SIN REFLOWS)
 // ==========================================
 const cursor = document.getElementById('cursor');
 const cursorGlow = document.getElementById('cursor-glow');
 
 let mouseX = 0, mouseY = 0;
 let glowX = 0, glowY = 0;
+let currentCursorX = 0, currentCursorY = 0;
 
 if (window.matchMedia('(hover: hover)').matches) {
   // Ocultar cursor de sistema dinámicamente
@@ -792,35 +788,50 @@ if (window.matchMedia('(hover: hover)').matches) {
   document.addEventListener('mousemove', e => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    
-    if (cursor) {
-      cursor.style.left = mouseX + 'px';
-      cursor.style.top = mouseY + 'px';
-    }
   });
 
-  function animateCursor() {
-    const lerp = 0.15;
-    glowX += (mouseX - glowX) * lerp;
-    glowY += (mouseY - glowY) * lerp;
+  let isClicked = false;
+  document.addEventListener('mousedown', () => {
+    isClicked = true;
+    if (cursor) cursor.classList.add('click');
+  });
+  document.addEventListener('mouseup', () => {
+    isClicked = false;
+    if (cursor) cursor.classList.remove('click');
+  });
 
-    if (cursorGlow) {
-      cursorGlow.style.left = glowX + 'px';
-      cursorGlow.style.top = glowY + 'px';
+  let lastCursorX = -1;
+  let lastCursorY = -1;
+  let lastGlowX = -1;
+  let lastGlowY = -1;
+
+  function animateCursor() {
+    // 1. Cursor principal (Lerp súper reactivo 40% por frame)
+    currentCursorX += (mouseX - currentCursorX) * 0.4;
+    currentCursorY += (mouseY - currentCursorY) * 0.4;
+
+    const scaleCursor = isClicked ? 1.6 : 1.0;
+    if (cursor && (Math.abs(currentCursorX - lastCursorX) > 0.05 || Math.abs(currentCursorY - lastCursorY) > 0.05)) {
+      cursor.style.transform = `translate3d(${currentCursorX}px, ${currentCursorY}px, 0) translate(-50%, -50%) scale(${scaleCursor})`;
+      lastCursorX = currentCursorX;
+      lastCursorY = currentCursorY;
+    }
+
+    // 2. Halo Glow (Lerp elástico e inercia del 15% por frame)
+    const lerpGlow = 0.15;
+    glowX += (mouseX - glowX) * lerpGlow;
+    glowY += (mouseY - glowY) * lerpGlow;
+
+    const scaleGlow = isClicked ? 0.6 : 1.0;
+    if (cursorGlow && (Math.abs(glowX - lastGlowX) > 0.05 || Math.abs(glowY - lastGlowY) > 0.05)) {
+      cursorGlow.style.transform = `translate3d(${glowX}px, ${glowY}px, 0) translate(-50%, -50%) scale(${scaleGlow})`;
+      lastGlowX = glowX;
+      lastGlowY = glowY;
     }
 
     requestAnimationFrame(animateCursor);
   }
   animateCursor();
-
-  document.addEventListener('mousedown', () => {
-    if (cursor) cursor.classList.add('click');
-    if (cursorGlow) cursorGlow.style.transform = 'translate(-50%, -50%) scale(0.6)';
-  });
-  document.addEventListener('mouseup', () => {
-    if (cursor) cursor.classList.remove('click');
-    if (cursorGlow) cursorGlow.style.transform = 'translate(-50%, -50%) scale(1)';
-  });
 }
 
 // ==========================================
@@ -1052,16 +1063,16 @@ if (!audioControl) {
   audioControl.id = 'cyber-audio-control';
   audioControl.className = 'paused';
   audioControl.innerHTML = `
+    <button id="audio-toggle-btn" aria-label="Reproducir música de fondo">
+      <span class="play-icon">▶</span>
+      <span class="pause-icon">❚❚</span>
+    </button>
     <div class="audio-visualizer">
       <span class="bar bar-1"></span>
       <span class="bar bar-2"></span>
       <span class="bar bar-3"></span>
       <span class="bar bar-4"></span>
     </div>
-    <button id="audio-toggle-btn" aria-label="Reproducir música de fondo">
-      <span class="play-icon">▶</span>
-      <span class="pause-icon">❚❚</span>
-    </button>
     <span class="audio-tooltip" id="audio-tooltip">RACING: OFF</span>
   `;
   document.body.appendChild(audioControl);
@@ -1562,3 +1573,66 @@ function stopSpeakingAnimation() {
     bgMusic.volume = 0.25;
   }
 }
+
+// ==========================================
+// 9. PIE DE PÁGINA (FOOTER) - SELECTOR POR PESTAÑAS DE TELEMETRÍA MÓVIL
+// ==========================================
+document.addEventListener('DOMContentLoaded', () => {
+  const footerGrid = document.querySelector('.footer-grid');
+  if (!footerGrid) return;
+
+  const cols = footerGrid.children;
+  // Necesitamos que haya exactamente 4 columnas: Marca (0), Karting (1), Grupos (2), Más info (3)
+  if (cols.length < 4) return;
+
+  const colKarting = cols[1];
+  const colGrupos = cols[2];
+  const colInfo = cols[3];
+
+  // Crear contenedor de pestañas de telemetría móvil
+  const tabsContainer = document.createElement('div');
+  tabsContainer.className = 'footer-telemetry-tabs';
+  tabsContainer.innerHTML = `
+    <button class="telemetry-tab-btn active" data-tab="1">
+      <span class="tab-num">01/</span>Karting
+    </button>
+    <button class="telemetry-tab-btn" data-tab="2">
+      <span class="tab-num">02/</span>Grupos
+    </button>
+    <button class="telemetry-tab-btn" data-tab="3">
+      <span class="tab-num">03/</span>Info
+    </button>
+  `;
+
+  // Insertar la barra de pestañas antes de las columnas de navegación
+  footerGrid.insertBefore(tabsContainer, colKarting);
+
+  // Inicializar clases iniciales de visibilidad
+  colKarting.classList.add('telemetry-tab-col', 'active');
+  colGrupos.classList.add('telemetry-tab-col');
+  colInfo.classList.add('telemetry-tab-col');
+
+  const tabButtons = tabsContainer.querySelectorAll('.telemetry-tab-btn');
+  tabButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+
+      // Actualizar botón activo
+      tabButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Ocultar y mostrar columnas correspondientes
+      colKarting.classList.remove('active');
+      colGrupos.classList.remove('active');
+      colInfo.classList.remove('active');
+
+      if (targetTab === '1') {
+        colKarting.classList.add('active');
+      } else if (targetTab === '2') {
+        colGrupos.classList.add('active');
+      } else if (targetTab === '3') {
+        colInfo.classList.add('active');
+      }
+    });
+  });
+});
