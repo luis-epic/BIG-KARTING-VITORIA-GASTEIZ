@@ -96,10 +96,8 @@ if (canvas) {
     const stripL = new THREE.Mesh(stripGeom, stripMat);
     stripL.rotation.x = -Math.PI / 2;
     stripL.position.set(-3.5, -2.09, -4);
-    scene.add(stripL);
     const stripR = stripL.clone();
     stripR.position.x = 3.5;
-    scene.add(stripR);
 
     // === ILUMINACIÓN PROFESIONAL DE TRES PUNTOS (Fotografía automotriz) ===
 
@@ -146,7 +144,7 @@ if (canvas) {
       loaderEl.id = 'cyber-loader';
       loaderEl.innerHTML = `
         <div class="loader-container">
-          <div class="loader-logo">BIG<span>K</span>ARTING</div>
+          <div style="text-align: center;"><img src="/logo-negro.jpg" class="loader-logo-img" alt="Big Karting Vitoria-Gasteiz"></div>
           <div class="loader-status" id="loader-status">INICIALIZANDO MOTOR GRÁFICO...</div>
           <div class="loader-bar-wrap">
             <div class="loader-bar" id="loader-bar"></div>
@@ -326,22 +324,28 @@ if (canvas) {
 
         const model = gltf.scene;
 
-        // Centrado y escalado automático inteligente
-        const box = new THREE.Box3().setFromObject(model);
-        const center = new THREE.Vector3();
-        box.getCenter(center);
-        model.position.sub(center); // Centrar pivote local
-
+        // 1. Obtener la caja de límites del modelo original para calcular el escalado
+        const originalBox = new THREE.Box3().setFromObject(model);
         const size = new THREE.Vector3();
-        box.getSize(size);
+        originalBox.getSize(size);
         const maxDim = Math.max(size.x, size.y, size.z);
         const desiredLength = 3.5;
         const scaleFactor = desiredLength / maxDim;
+        
+        // 2. Aplicar escala al modelo primero
         model.scale.set(scaleFactor, scaleFactor, scaleFactor);
+
+        // 3. Obtener la caja de límites y centro geométrico del modelo ya escalado
+        const scaledBox = new THREE.Box3().setFromObject(model);
+        const scaledCenter = new THREE.Vector3();
+        scaledBox.getCenter(scaledCenter);
+        
+        // 4. Centrar en X y Z en la escena, y subir en Y para que la parte más baja de los neumáticos esté a 0 local
+        model.position.set(-scaledCenter.x, -scaledBox.min.y, -scaledCenter.z); 
 
         const modelContainer = new THREE.Group();
         modelContainer.add(model);
-        modelContainer.position.y = 0.15; // Reposar sobre la rejilla
+        modelContainer.position.y = 0; // Pivote base alineado en Y = 0 local
         modelContainer.rotation.y = Math.PI; // Encarar dirección de avance
 
         // Recorrido (traverse) para sombras, materiales realistas y ruedas
@@ -422,6 +426,10 @@ if (canvas) {
     const trackGroup = new THREE.Group();
     scene.add(trackGroup);
 
+    // Añadir las tiras de luz reflectante al grupo de la pista
+    trackGroup.add(stripL);
+    trackGroup.add(stripR);
+
     // Rejilla muy sutil de líneas (apenas visibles, efecto marca de agua)
     const studioGrid = new THREE.GridHelper(20, 20, 0x1a0a0a, 0x0e0a0a);
     studioGrid.position.y = -2.09;
@@ -464,6 +472,70 @@ if (canvas) {
     let currentMouseX = 0;
     let currentMouseY = 0;
     let scrollPercent = 0;
+
+    // === INTERACTIVIDAD DRAG-TO-ROTATE (ELEMENTO 3D REACTIVO Y) ===
+    const heroSection = document.getElementById('hero');
+    let isDragging = false;
+    let previousMousePosition = { x: 0, y: 0 };
+    let dragRotationY = 0;
+
+    if (heroSection) {
+      // Cambiar cursor estético sobre el Hero para sugerir interactividad
+      heroSection.style.cursor = 'grab';
+
+      heroSection.addEventListener('mousedown', (e) => {
+        // Evitamos arrastre si hace clic en enlaces/botones
+        if (e.target.closest('a') || e.target.closest('button')) return;
+        isDragging = true;
+        heroSection.style.cursor = 'grabbing';
+        previousMousePosition = { x: e.clientX, y: e.clientY };
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const deltaMove = {
+          x: e.clientX - previousMousePosition.x,
+          y: e.clientY - previousMousePosition.y
+        };
+
+        // Sumar rotación interactiva horizontal
+        dragRotationY += deltaMove.x * 0.007;
+
+        previousMousePosition = { x: e.clientX, y: e.clientY };
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          heroSection.style.cursor = 'grab';
+        }
+      });
+
+      // Eventos táctiles para móviles
+      heroSection.addEventListener('touchstart', (e) => {
+        if (e.target.closest('a') || e.target.closest('button')) return;
+        if (e.touches.length === 1) {
+          isDragging = true;
+          previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!isDragging || e.touches.length !== 1) return;
+        const deltaMove = {
+          x: e.touches[0].clientX - previousMousePosition.x,
+          y: e.touches[0].clientY - previousMousePosition.y
+        };
+
+        dragRotationY += deltaMove.x * 0.009;
+
+        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        isDragging = false;
+      });
+    }
 
     document.addEventListener('mousemove', e => {
       targetMouseX = (e.clientX / window.innerWidth) * 2 - 1;
@@ -511,6 +583,11 @@ if (canvas) {
       const elapsedTime = clock.getElapsedTime();
       const time = elapsedTime;
 
+      // Retorno elástico suave a la posición neutra original de scroll
+      if (!isDragging) {
+        dragRotationY += (0 - dragRotationY) * 0.05;
+      }
+
       // Actualizar uTime del shader de fondo
       bgMat.uniforms.uTime.value = time;
 
@@ -535,13 +612,18 @@ if (canvas) {
         }
       });
 
+      // Sincronizar posición horizontal de la pista y el fondo con el coche para un centrado perfecto
+      trackGroup.position.x = kartGroup.position.x;
+
       studioGrid.position.z += flow;
       if (studioGrid.position.z > 2) {
         studioGrid.position.z = 0;
       }
       trackGroup.rotation.y = currentMouseX * 0.02;
 
-      // Halo bajo el kart — pulso sutil (estudio)
+      // Halo bajo el kart — pulso sutil y sincronización de posición para alineación perfecta
+      haloMesh.position.x = kartGroup.position.x;
+      haloMesh.position.z = kartGroup.position.z;
       haloMesh.material.opacity = 0.06 + Math.sin(time * 1.2) * 0.04;
       haloMesh.scale.setScalar(1.0 + Math.sin(time * 0.9) * 0.06);
 
@@ -573,9 +655,9 @@ if (canvas) {
       let targetLookY = 0.2;
       let targetLookZ = 0;
 
-      let targetKartY = Math.sin(time * 1.8) * 0.05; // Levitación de suspensión senoidal constante
+      let targetKartY = -2.09 + Math.sin(time * 2.5) * 0.008; // Suspensión sutil del motor al ralentí (8 milímetros)
       let targetKartRotX = -scrollSpeed * 8.0;       // Inclinación física de inercia longitudinal al acelerar
-      let targetKartRotY = (time * 0.15) + currentMouseX * 0.18; // Giro suave reactivo al ratón (volante)
+      let targetKartRotY = Math.PI - 0.4 + currentMouseX * 0.18; // Giro suave reactivo al ratón (volante)
       let targetKartRotZ = scrollSpeed * 4.0 - currentMouseX * 0.08; // Inclinación lateral
       let targetScale = 1.0;
 
@@ -586,14 +668,14 @@ if (canvas) {
         const angle = THREE.MathUtils.lerp(0.3, Math.PI / 3, p);
         const radius = 5.5;
         targetCamX = Math.sin(angle) * radius + (isMobile ? 0 : 1.2);  // offset a la derecha si no es móvil
-        targetCamY = THREE.MathUtils.lerp(1.0, 1.6, p);
+        targetCamY = THREE.MathUtils.lerp(0.6, 1.6, p);
         targetCamZ = Math.cos(angle) * radius;
         
         targetLookX = isMobile ? 0 : 1.8;   // mirar al kart
-        targetLookY = 0.15;
+        targetLookY = THREE.MathUtils.lerp(-0.6, 0.15, p);
         targetLookZ = 0;
         
-        targetKartRotY = (time * 0.12) + currentMouseX * 0.25;  // parallax más pronunciado
+        targetKartRotY = Math.PI - 0.4 + currentMouseX * 0.25;  // parallax más pronunciado
         targetScale = THREE.MathUtils.lerp(1.0, 0.72, p);
       } else if (scrollPercent >= 0.25 && scrollPercent < 0.55) {
         // FASE 2: MODALIDADES (Acercamiento macro en el motor y pontón derecho)
@@ -608,7 +690,7 @@ if (canvas) {
         targetLookY = THREE.MathUtils.lerp(0.25, 0.15, p);
         targetLookZ = THREE.MathUtils.lerp(0, -0.15, p);
         
-        targetKartRotY = THREE.MathUtils.lerp((time * 0.15) + currentMouseX * 0.18, -Math.PI / 6 + currentMouseX * 0.1, p);
+        targetKartRotY = THREE.MathUtils.lerp(Math.PI - 0.4, Math.PI - 0.9 + currentMouseX * 0.1, p);
         targetScale = THREE.MathUtils.lerp(0.72, 0.85, p);
       } else if (scrollPercent >= 0.55 && scrollPercent < 0.85) {
         // FASE 3: DRIFT (Plano rasante bajo desde la parte trasera izquierda)
@@ -623,7 +705,7 @@ if (canvas) {
         targetLookY = THREE.MathUtils.lerp(0.15, 0.25, p);
         targetLookZ = THREE.MathUtils.lerp(-0.15, 0.25, p);
         
-        targetKartRotY = THREE.MathUtils.lerp(-Math.PI / 6, Math.PI / 3.2 + currentMouseX * 0.18, p);
+        targetKartRotY = THREE.MathUtils.lerp(Math.PI - 0.9, Math.PI / 2.5 + currentMouseX * 0.18, p);
         targetScale = THREE.MathUtils.lerp(0.85, 0.65, p);
       } else {
         // FASE 4: CONTACTO Y FOOTER (Vuelo cenital directo top-down)
@@ -643,7 +725,7 @@ if (canvas) {
         targetLookY = THREE.MathUtils.lerp(0.25, 0, p);
         targetLookZ = THREE.MathUtils.lerp(0.25, 0, p);
         
-        targetKartRotY = THREE.MathUtils.lerp(Math.PI / 3.2, time * 0.2 + currentMouseX * 0.1, p);
+        targetKartRotY = THREE.MathUtils.lerp(Math.PI / 2.5, Math.PI + currentMouseX * 0.1, p);
         targetScale = THREE.MathUtils.lerp(0.65, 0.45, p);
       }
 
@@ -664,8 +746,11 @@ if (canvas) {
       kartGroup.position.y += (targetKartY - kartGroup.position.y) * 0.07;
       kartGroup.position.z += (0 - kartGroup.position.z) * 0.07;
 
+      // Sumar rotación interactiva por arrastre (Drag-to-Rotate en eje Y)
+      const finalKartRotY = targetKartRotY + dragRotationY;
+
       kartGroup.rotation.x += (targetKartRotX - kartGroup.rotation.x) * 0.07;
-      kartGroup.rotation.y += (targetKartRotY - kartGroup.rotation.y) * 0.07;
+      kartGroup.rotation.y += (finalKartRotY - kartGroup.rotation.y) * 0.07;
       kartGroup.rotation.z += (targetKartRotZ - kartGroup.rotation.z) * 0.07;
 
       const s = kartGroup.scale.x + (targetScale - kartGroup.scale.x) * 0.07;
