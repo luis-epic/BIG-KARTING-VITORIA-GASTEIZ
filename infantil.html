@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Avanzado -->
+  <title>Karting Infantil Seguro en Vitoria-Gasteiz | Big Karting</title>
+  <meta name="description" content="Circuito infantil cubierto totalmente seguro en Miñano Mayor. Karts adaptados para niños de 5 a 13 años con limitador remoto y cinturones. Cumpleaños y cursillos.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bigkartingvitoria.com/infantil.html">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Karting Infantil Seguro en Vitoria-Gasteiz | Big Karting">
+  <meta property="og:description" content="Circuito infantil cubierto totalmente seguro. Karts adaptados para niños de 5 a 13 años con limitador remoto. Cumpleaños y cursillos.">
+  <meta property="og:image" content="/assets/infantil_kart.png">
+  <meta property="og:url" content="https://bigkartingvitoria.com/infantil.html">
+  <meta property="og:type" content="article">
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+
+<!-- Canvas global para Three.js WebGL -->
+<canvas id="hero-canvas"></canvas>
+
+<div id="cursor"></div>
+<div id="cursor-glow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="window.location.href='/index.html'">BIG<span>K</span>ARTING</div>
+  <ul class="nav-links">
+    <li><a href="/index.html#modalidades">Karting</a></li>
+    <li><a href="/grupos.html">Grupos</a></li>
+    <li><a href="/index.html#tarifas">Tarifas</a></li>
+    <li><a href="/index.html#horario">Horario</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+  <a class="nav-phone" href="tel:+34685722119">📞 685 722 119</a>
+  
+  <div class="nav-hamburger" id="hamburgerBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- Menú móvil Drawer -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <ul class="nav-mobile-links">
+    <li><a href="/index.html#modalidades">Karting</a></li>
+    <li><a href="/grupos.html">Grupos</a></li>
+    <li><a href="/index.html#tarifas">Tarifas</a></li>
+    <li><a href="/index.html#horario">Horario</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+  <a class="btn-primary" style="margin-top: 20px; text-align: center;" href="tel:+34685722119">📞 685 722 119</a>
+</div>
+
+<main>
+
+  <!-- subpage hero -->
+  <section id="hero" style="height: 60vh; min-height: 400px; display: flex; align-items: center; justify-content: center; position: relative;">
+    <div class="hero-track"></div>
+    <div class="hero-content" style="margin-top: 60px;">
+      <div class="hero-eyebrow">Diversión 100% Protegida</div>
+      <h1 class="hero-title" style="font-size: clamp(48px, 8vw, 100px); line-height: 1;">
+        <span class="line1">KARTING</span>
+        <span class="line2">INFANTIL</span>
+      </h1>
+      <p class="hero-sub">Pista interior segura y karts adaptados para niños a partir de 5 años</p>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section style="background: rgba(17, 17, 17, 0.85); backdrop-filter: blur(8px); padding: 60px 40px;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: start;">
+      
+      <!-- Lado Izquierdo: Info & Specs -->
+      <div>
+        <div class="section-label">Seguridad Garantizada</div>
+        <h2 class="section-title">PILOTOS DEL <em>FUTURO</em></h2>
+        <p style="font-size: 16px; font-weight: 300; line-height: 1.8; color: rgba(245,245,240,0.7); margin-bottom: 30px;">
+          En Big Karting, la seguridad de los más pequeños es nuestra prioridad número uno. Nuestra flota infantil está diseñada con estructuras protectoras avanzadas, cinturones de seguridad integrales de 3 puntos y un sistema electrónico de limitación de velocidad controlado de forma remota por nuestros instructores en pista. Diversión inolvidable con tranquilidad absoluta para los padres.
+        </p>
+
+        <!-- Contenedor Imagen con Glassmorphism -->
+        <div style="border-radius: 16px; overflow: hidden; border: 1px solid rgba(232,0,30,0.2); box-shadow: 0 15px 40px rgba(0,0,0,0.5); margin-bottom: 40px;">
+          <img src="/assets/infantil_kart.png" alt="Kart infantil" style="width: 100%; display: block;">
+        </div>
+
+        <h3 class="section-title" style="font-size: 28px; margin-bottom: 20px;">SISTEMAS DE <em>SEGURIDAD</em></h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 40px;">
+          <div style="background: rgba(28,28,28,0.6); padding: 20px; border-left: 3px solid var(--red);">
+            <div style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:var(--red); letter-spacing:2px; text-transform:uppercase;">Control de Velocidad</div>
+            <div style="font-family:'Bebas Neue', sans-serif; font-size:24px; color:#fff; margin-top:5px;">Limitador Remoto Inteligente</div>
+          </div>
+          <div style="background: rgba(28,28,28,0.6); padding: 20px; border-left: 3px solid var(--yellow);">
+            <div style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:var(--yellow); letter-spacing:2px; text-transform:uppercase;">Retención</div>
+            <div style="font-family:'Bebas Neue', sans-serif; font-size:24px; color:#fff; margin-top:5px;">Cinturón de Seguridad de 3 Puntos</div>
+          </div>
+          <div style="background: rgba(28,28,28,0.6); padding: 20px; border-left: 3px solid var(--yellow);">
+            <div style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:var(--yellow); letter-spacing:2px; text-transform:uppercase;">Edades Permitidas</div>
+            <div style="font-family:'Bebas Neue', sans-serif; font-size:24px; color:#fff; margin-top:5px;">Desde los 5 hasta los 13 años</div>
+          </div>
+          <div style="background: rgba(28,28,28,0.6); padding: 20px; border-left: 3px solid var(--red);">
+            <div style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:var(--red); letter-spacing:2px; text-transform:uppercase;">Monitoreo</div>
+            <div style="font-family:'Bebas Neue', sans-serif; font-size:24px; color:#fff; margin-top:5px;">Instructores dedicados en pista</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lado Derecho: Tarifas & Reserva -->
+      <div style="background: var(--dark); border: 1px solid rgba(255,255,255,0.05); padding: 40px 30px; border-radius: 12px; position: sticky; top: 120px; box-shadow: 0 15px 35px rgba(0,0,0,0.6);">
+        <div class="tarifa-name">Sesiones Disponibles</div>
+        <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+            <div>
+              <div style="font-family:'Rajdhani', sans-serif; font-size:16px; font-weight:700; color:#fff;">1 SESIÓN INFANTIL (10 MIN)</div>
+              <div style="font-size:12px; color:var(--metal);">Casco y monitor incluidos</div>
+            </div>
+            <div style="font-family:'Bebas Neue', sans-serif; font-size:28px; color:var(--red);">13,00 €</div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+            <div>
+              <div style="font-family:'Rajdhani', sans-serif; font-size:16px; font-weight:700; color:#fff;">CURSILLO INDIVIDUAL</div>
+              <div style="font-size:12px; color:var(--metal);">Clase teórica + Práctica en pista</div>
+            </div>
+            <div style="font-family:'Bebas Neue', sans-serif; font-size:28px; color:var(--red);">25,00 €</div>
+          </div>
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px;">
+            <div>
+              <div style="font-family:'Rajdhani', sans-serif; font-size:16px; font-weight:700; color:#fff;">PACK CUMPLE (MÍN. 6)</div>
+              <div style="font-size:12px; color:var(--metal);">Sesión + Merienda + Tarta</div>
+            </div>
+            <div style="font-family:'Bebas Neue', sans-serif; font-size:28px; color:var(--red);">22,00 €<span style="font-size:12px; color:var(--metal);">/niño</span></div>
+          </div>
+        </div>
+
+        <div class="tarifa-divider" style="margin: 30px 0 20px;"></div>
+        
+        <h4 style="font-family:'Bebas Neue', sans-serif; font-size:22px; letter-spacing:1px; margin-bottom:15px; color:#fff;">RESERVAR SESIÓN O EVENTO</h4>
+        <form style="display: flex; flex-direction: column; gap: 12px;" onsubmit="alert('¡Gracias por tu solicitud! Nos pondremos en contacto contigo de inmediato.'); return false;">
+          <input type="text" placeholder="Tu Nombre (Madre/Padre/Tutor)" required style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); padding:12px; font-family:'Exo 2', sans-serif; font-size:14px; color:#fff; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); outline:none;">
+          <input type="tel" placeholder="Teléfono" required style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); padding:12px; font-family:'Exo 2', sans-serif; font-size:14px; color:#fff; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); outline:none;">
+          <select style="background:var(--gray); border:1px solid rgba(255,255,255,0.1); padding:12px; font-family:'Exo 2', sans-serif; font-size:14px; color:#fff; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); outline:none;">
+            <option value="1 sesión infantil">1 Sesión Infantil (13€)</option>
+            <option value="Cursillo">Cursillo de Piloto (25€)</option>
+            <option value="Cumpleaños Infantil">Cumpleaños / Fiestas (22€/niño)</option>
+          </select>
+          <button type="submit" class="btn-primary" style="border:none; width:100%; text-align:center; padding:14px; margin-top:10px; cursor:pointer;">Reservar Sesión Infantil</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<div class="red-stripe"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">BIG<span>K</span>ARTING</div>
+      <p class="footer-brand-desc">Descubre la emoción del karting en Vitoria-Gasteiz. Adrenalina, velocidad y diversión para todos. ¡No te arrepentirás!</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/bigkarting" class="social-link" target="_blank">f</a>
+        <a href="https://www.instagram.com/bigkartingvitoria/" class="social-link" target="_blank">ig</a>
+        <a href="https://wa.me/34685722119" class="social-link" target="_blank">wa</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Karting</div>
+      <ul class="footer-links">
+        <li><a href="/carreras.html">Karting en Vitoria</a></li>
+        <li><a href="/drift.html">Drift</a></li>
+        <li><a href="/carreras.html">Carreras</a></li>
+        <li><a href="/infantil.html">Karts infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Grupos</div>
+      <ul class="footer-links">
+        <li><a href="/grupos.html#despedidas">Despedidas</a></li>
+        <li><a href="/grupos.html#teambuilding">Teambuilding</a></li>
+        <li><a href="/grupos.html#cumpleanos">Cumpleaños</a></li>
+        <li><a href="/grupos.html#fiestas-infantiles">Fiestas infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Más info</div>
+      <ul class="footer-links">
+        <li><a href="/index.html#tarifas">Tarifas</a></li>
+        <li><a href="/tienda.html">Tienda online</a></li>
+        <li><a href="/index.html">Ocio en Vitoria</a></li>
+        <li><a href="/contacto.html">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Big Karting Vitoria-Gasteiz · Miñano Mayor, Álava</div>
+    <div class="footer-legal">
+      <a href="/legal.html#aviso-legal">Aviso Legal</a>
+      <a href="/legal.html#privacidad">Privacidad</a>
+      <a href="/legal.html#cookies">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

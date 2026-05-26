@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Avanzado -->
+  <title>Big Karting Vitoria-Gasteiz | Circuito de Karting & Drift Cubierto</title>
+  <meta name="description" content="Siente la velocidad en el mejor circuito indoor de karting en Vitoria-Gasteiz. Único circuito exclusivo de Drift en el norte de España. Packs para cumpleaños, despedidas y teambuilding.">
+  <meta name="keywords" content="karting vitoria, karts alava, drift norte españa, teambuilding vitoria, cumpleaños niños vitoria, circuito indoor karting">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bigkartingvitoria.com/">
+  
+  <!-- Vista previa de redes sociales (Open Graph) -->
+  <meta property="og:title" content="Big Karting Vitoria-Gasteiz | Circuito de Karting & Drift Cubierto">
+  <meta property="og:description" content="Siente la velocidad en el mejor circuito indoor de karting en Vitoria-Gasteiz. Único circuito exclusivo de Drift en el norte de España. Reserva hoy mismo.">
+  <meta property="og:image" content="/assets/hero_kart-CLPfU0UE.png">
+  <meta property="og:url" content="https://bigkartingvitoria.com/">
+  <meta property="og:type" content="website">
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;700;900&display=swap" rel="stylesheet">
+
+  <!-- Datos Estructurados Schema.org para Google Local Business -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SportsActivityLocation",
+    "name": "Big Karting Vitoria-Gasteiz",
+    "description": "Circuito de karting cubierto en Vitoria-Gasteiz con circuito exclusivo de Drift en el norte de España y actividades para grupos, empresas y niños.",
+    "image": "https://bigkartingvitoria.com/assets/hero_kart.png",
+    "telephone": "+34685722119",
+    "email": "bigkartingvitoria@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Ctra s/n",
+      "addressLocality": "Miñano Mayor",
+      "addressRegion": "Álava",
+      "postalCode": "01196",
+      "addressCountry": "ES"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": "42.880000",
+      "longitude": "-2.680000"
+    },
+    "url": "https://bigkartingvitoria.com/",
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Tuesday", "Wednesday", "Thursday"],
+        "opens": "16:00",
+        "closes": "21:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Friday",
+        "opens": "16:00",
+        "closes": "22:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "11:00",
+        "closes": "14:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "16:00",
+        "closes": "22:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Sunday",
+        "opens": "11:00",
+        "closes": "14:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Sunday",
+        "opens": "16:00",
+        "closes": "21:00"
+      }
+    ]
+  }
+  </script>
+  <script type="module" crossorigin src="/assets/main-BVXuaUev.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-CuhlOSdJ.css">
+</head>
+<body>
+
+<!-- Canvas global para Three.js WebGL -->
+<canvas id="hero-canvas"></canvas>
+
+<div id="cursor"></div>
+<div id="cursor-glow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">BIG<span>K</span>ARTING</div>
+  <ul class="nav-links">
+    <li><a href="#modalidades">Karting</a></li>
+    <li><a href="#grupos">Grupos</a></li>
+    <li><a href="#tarifas">Tarifas</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#horario">Horario</a></li>
+    <li><a href="#ubicacion">Contacto</a></li>
+  </ul>
+  <a class="nav-phone" href="tel:+34685722119">📞 685 722 119</a>
+  
+  <!-- Hamburguesa móvil -->
+  <div class="nav-hamburger" id="hamburgerBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- Menú móvil Drawer -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <ul class="nav-mobile-links">
+    <li><a href="#modalidades">Karting</a></li>
+    <li><a href="#grupos">Grupos</a></li>
+    <li><a href="#tarifas">Tarifas</a></li>
+    <li><a href="#galeria">Galería</a></li>
+    <li><a href="#horario">Horario</a></li>
+    <li><a href="#ubicacion">Contacto</a></li>
+  </ul>
+  <a class="btn-primary" style="margin-top: 20px; text-align: center;" href="tel:+34685722119">📞 685 722 119</a>
+  <a class="btn-outline" style="margin-top: 12px; text-align: center;" href="https://wa.me/34685722119" target="_blank">WhatsApp</a>
+</div>
+
+<main>
+
+<!-- HERO -->
+<section id="hero">
+
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Vitoria-Gasteiz · Álava · España</div>
+    <h1 class="hero-title">
+      <span class="line1">BIG</span>
+      <span class="line2">KARTING</span>
+      <span class="line3">VITORIA-GASTEIZ</span>
+    </h1>
+    <p class="hero-sub">Bienvenido a un lugar donde solo encontrarás <strong>diversión</strong></p>
+    <div class="hero-ctas">
+      <a href="#modalidades" class="btn-primary">Explorar circuitos</a>
+      <a href="tel:+34685722119" class="btn-outline">Reservar ahora</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Desplaza</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">3</div>
+    <div class="stat-label">Modalidades<br>de conducción</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">6</div>
+    <div class="stat-label">Días<br>a la semana</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">1º</div>
+    <div class="stat-label">Único drift<br>en el Norte</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">∞</div>
+    <div class="stat-label">Adrenalina<br>garantizada</div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">KARTING</div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item"><span>DRIFT</span></div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item">CARRERAS</div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item"><span>INFANTIL</span></div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item">TEAMBUILDING</div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item"><span>DESPEDIDAS</span></div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item">CUMPLEAÑOS</div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item"><span>KARTING</span></div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item">DRIFT</div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item"><span>CARRERAS</span></div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item">INFANTIL</div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item"><span>TEAMBUILDING</span></div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item">DESPEDIDAS</div>
+    <div class="marquee-item">·</div>
+    <div class="marquee-item"><span>CUMPLEAÑOS</span></div>
+    <div class="marquee-item">·</div>
+  </div>
+</div>
+
+<!-- MODALIDADES -->
+<section id="modalidades">
+  <div class="section-inner">
+    <div class="section-label reveal">Lo que hacemos</div>
+    <h2 class="section-title reveal">ELIGE TU<br><em>MODALIDAD</em></h2>
+
+    <div class="cards-3d reveal">
+      <div class="card-3d">
+        <div class="card-3d-bg" style="background-image: linear-gradient(135deg, rgba(26,10,10,0.85) 0%, rgba(45,8,8,0.85) 100%), url('/assets/carreras_kart-DbQDVwsM.png');"></div>
+        <div class="card-3d-num">1</div>
+        <div class="card-3d-content">
+          <div class="card-3d-icon">🏁</div>
+          <div class="card-3d-tag">Karting clásico</div>
+          <div class="card-3d-name">CARRERAS</div>
+          <p class="card-3d-desc">Compite contra tus amigos o desconocidos en nuestro circuito interior. Pura velocidad y adrenalina en cada curva.</p>
+          <a href="/carreras.html" class="card-3d-link">Ver más</a>
+        </div>
+      </div>
+
+      <div class="card-3d">
+        <div class="card-3d-bg" style="background-image: linear-gradient(135deg, rgba(10,26,10,0.85) 0%, rgba(8,32,12,0.85) 100%), url('/assets/drift_kart-f0XuoNpD.png');"></div>
+        <div class="card-3d-num">2</div>
+        <div class="card-3d-content">
+          <div class="card-3d-icon">💨</div>
+          <div class="card-3d-tag">Exclusivo Norte España</div>
+          <div class="card-3d-name">DRIFT</div>
+          <p class="card-3d-desc">Único circuito de drift en el Norte. Siente la sensación de conducir sobre hielo con nuestros karts de drift especiales.</p>
+          <a href="/drift.html" class="card-3d-link">Ver más</a>
+        </div>
+      </div>
+
+      <div class="card-3d">
+        <div class="card-3d-bg" style="background-image: linear-gradient(135deg, rgba(10,10,26,0.85) 0%, rgba(12,16,40,0.85) 100%), url('/assets/infantil_kart-pBhtvTUK.png');"></div>
+        <div class="card-3d-num">3</div>
+        <div class="card-3d-content">
+          <div class="card-3d-icon">⭐</div>
+          <div class="card-3d-tag">Para los más pequeños</div>
+          <div class="card-3d-name">INFANTIL</div>
+          <p class="card-3d-desc">Karts adaptados para niños con cursillos de conducción, cumpleaños y fiestas infantiles que no olvidarán.</p>
+          <a href="/infantil.html" class="card-3d-link">Ver más</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DRIFT ESPECIAL -->
+<div id="drift-section">
+  <div class="drift-visual">
+    <div class="drift-visual-inner"></div>
+    <div class="drift-badge"><span>⚡ Único en el Norte</span></div>
+  </div>
+
+  <div class="drift-text">
+    <div class="section-label">Exclusividad total</div>
+    <h2 class="section-title">CIRCUITO<br><em>DRIFT</em></h2>
+    <p>Somos el <strong>único circuito en el Norte de España</strong> con karts de Drift. Una experiencia completamente diferente, como si estuvieras conduciendo sobre hielo.</p>
+    <ul class="feature-list">
+      <li>Karts especiales de Drift homologados</li>
+      <li>Circuito interior cubierto 365 días</li>
+      <li>Apto para todos los niveles</li>
+      <li>Sesiones individuales y grupales</li>
+      <li>Perfecto para despedidas de soltero</li>
+    </ul>
+    <a href="/drift.html" class="btn-primary">Descubrir el Drift</a>
+  </div>
+</div>
+
+<!-- GRUPOS Y EVENTOS -->
+<section id="grupos">
+  <div class="section-inner">
+    <div class="section-label reveal">Para todos</div>
+    <h2 class="section-title reveal">SOMOS <em>ESPECIALISTAS</em><br>EN GRUPOS</h2>
+
+    <div class="groups-grid reveal">
+      <div class="group-card">
+        <span class="group-card-icon">🥂</span>
+        <div class="group-card-title">DESPEDIDAS DE SOLTERO/A</div>
+        <p class="group-card-desc">La actividad perfecta para una despedida inolvidable. Packs especiales con diferentes modalidades y opciones para grupos.</p>
+        <div class="group-card-num">01</div>
+      </div>
+      <div class="group-card">
+        <span class="group-card-icon">🏢</span>
+        <div class="group-card-title">TEAMBUILDING</div>
+        <p class="group-card-desc">Actividades de empresa para fortalecer el equipo con adrenalina y competición sana.</p>
+        <div class="group-card-num">02</div>
+      </div>
+      <div class="group-card">
+        <span class="group-card-icon">🎂</span>
+        <div class="group-card-title">CUMPLEAÑOS</div>
+        <p class="group-card-desc">Celebra tu cumpleaños o el de tus hijos de una forma diferente que nadie olvidará.</p>
+        <div class="group-card-num">03</div>
+      </div>
+      <div class="group-card">
+        <span class="group-card-icon">🎉</span>
+        <div class="group-card-title">FIESTAS INFANTILES</div>
+        <p class="group-card-desc">Un espacio seguro y divertido para que los más pequeños vivan la experiencia del karting.</p>
+        <div class="group-card-num">04</div>
+      </div>
+      <div class="group-card" style="background: var(--red);">
+        <span class="group-card-icon">📞</span>
+        <div class="group-card-title" style="color: #fff;">¿TIENES UN GRUPO?</div>
+        <p class="group-card-desc" style="color: rgba(255,255,255,0.8);">Llámanos o escríbenos por WhatsApp y te preparamos un pack a medida para tu grupo.</p>
+        <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+          <a href="tel:+34685722119" class="btn-primary" style="background:#fff; color: var(--red);">685 722 119</a>
+          <a href="https://wa.me/34685722119" class="btn-outline" style="border-color: rgba(255,255,255,0.4); color: #fff;" target="_blank">WhatsApp</a>
+        </div>
+        <div class="group-card-num" style="color: rgba(255,255,255,0.08);">05</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TARIFAS -->
+<section id="tarifas">
+  <div class="section-inner">
+    <div class="section-label reveal">Precios oficiales</div>
+    <h2 class="section-title reveal">NUESTRAS<br><em>TARIFAS</em></h2>
+
+    <!-- SESIONES INDIVIDUALES -->
+    <div class="tarifas-sub-title reveal">🏎️ SESIONES INDIVIDUALES (10 MIN)</div>
+    <div class="socios-discount-banner reveal">💳 SOCIOS: 5€ DE DESCUENTO EN TODAS LAS TANDAS</div>
+
+    <div class="tarifas-individuales-grid reveal">
+      <!-- NIÑOS -->
+      <div class="tarifa-card">
+        <div class="tarifa-name">Karts Niños</div>
+        <div class="tarifa-price">20<sup>€</sup></div>
+        <div class="tarifa-price-note">Tanda estándar de 10 min</div>
+        <div class="tarifa-divider"></div>
+        <ul class="tarifa-features">
+          <li><strong>1ª Tanda:</strong> 20 €</li>
+          <li><strong>2ª Tanda:</strong> 35 € (ahorro 5€)</li>
+          <li><strong>Socios (Club):</strong> 15 €</li>
+          <li>Karts infantiles adaptados y seguros</li>
+        </ul>
+        <a href="/tienda.html" class="tarifa-cta">Reservar tanda</a>
+      </div>
+
+      <!-- SODI CLÁSICO -->
+      <div class="tarifa-card">
+        <div class="tarifa-name">Karts Sodi (Adulto)</div>
+        <div class="tarifa-price">20<sup>€</sup></div>
+        <div class="tarifa-price-note">Tanda estándar de 10 min</div>
+        <div class="tarifa-divider"></div>
+        <ul class="tarifa-features">
+          <li><strong>1ª Tanda:</strong> 20 €</li>
+          <li><strong>2ª Tanda:</strong> 35 € (ahorro 5€)</li>
+          <li><strong>Socios (Club):</strong> 15 €</li>
+          <li>Flota Sodi RT8 de 270cc (9 CV)</li>
+        </ul>
+        <a href="/tienda.html" class="tarifa-cta">Reservar tanda</a>
+      </div>
+
+      <!-- DRIFT -->
+      <div class="tarifa-card">
+        <div class="tarifa-name">Karts Drift (Adulto)</div>
+        <div class="tarifa-price">25<sup>€</sup></div>
+        <div class="tarifa-price-note">Tanda de derrape controlado</div>
+        <div class="tarifa-divider"></div>
+        <ul class="tarifa-features">
+          <li><strong>1ª Tanda:</strong> 25 €</li>
+          <li><strong>2ª Tanda:</strong> 45 € (ahorro 5€)</li>
+          <li><strong>Socios (Club):</strong> 20 €</li>
+          <li>*Solo bajo reserva previa</li>
+        </ul>
+        <a href="/tienda.html" class="tarifa-cta">Reservar drift</a>
+      </div>
+
+      <!-- BIPLAZA -->
+      <div class="tarifa-card">
+        <div class="tarifa-name">Karts Biplaza</div>
+        <div class="tarifa-price">25<sup>€</sup></div>
+        <div class="tarifa-price-note">Piloto + Copiloto en pareja</div>
+        <div class="tarifa-divider"></div>
+        <ul class="tarifa-features">
+          <li><strong>1ª Tanda:</strong> 25 €</li>
+          <li><strong>2ª Tanda:</strong> 45 € (ahorro 5€)</li>
+          <li><strong>Socios (Club):</strong> 20 €</li>
+          <li>Diversión garantizada en pareja</li>
+        </ul>
+        <a href="/tienda.html" class="tarifa-cta">Reservar biplaza</a>
+      </div>
+    </div>
+
+    <!-- CAMPEONATOS PARA GRUPOS -->
+    <div class="tarifas-sub-title reveal" style="margin-top: 60px;">🏆 CAMPEONATOS PARA GRUPOS</div>
+
+    <div class="tarifas-grupos-grid reveal">
+      <!-- SPRINT RACE -->
+      <div class="tarifa-card">
+        <div class="tarifa-name">Sprint Race</div>
+        <div class="tarifa-price">35<sup>€</sup></div>
+        <div class="tarifa-price-note">Por piloto (Mín. 6 personas)</div>
+        <div class="tarifa-divider"></div>
+        <ul class="tarifa-features">
+          <li>10 min de Clasificación</li>
+          <li>10 vueltas de Carrera final</li>
+          <li>Medallas y ceremonia de podio</li>
+          <li>Telemetría oficial de tiempos</li>
+        </ul>
+        <a href="/contacto.html" class="tarifa-cta">Reservar evento</a>
+      </div>
+
+      <!-- MINI GP -->
+      <div class="tarifa-card featured">
+        <div class="tarifa-name">Mini Gran Premio</div>
+        <div class="tarifa-price">45<sup>€</sup></div>
+        <div class="tarifa-price-note">Por piloto (Mín. 6 personas)</div>
+        <div class="tarifa-divider"></div>
+        <ul class="tarifa-features">
+          <li>5 min de Entrenamiento libre</li>
+          <li>10 min de Clasificación</li>
+          <li>15 vueltas de Carrera final</li>
+          <li><strong>1 Consumición GRATIS</strong></li>
+          <li>Medallas y podio oficial</li>
+        </ul>
+        <a href="/contacto.html" class="tarifa-cta">Reservar evento</a>
+      </div>
+
+      <!-- GRAN PREMIO -->
+      <div class="tarifa-card">
+        <div class="tarifa-name">Gran Premio</div>
+        <div class="tarifa-price">55<sup>€</sup></div>
+        <div class="tarifa-price-note">Por piloto (Mín. 6 personas)</div>
+        <div class="tarifa-divider"></div>
+        <ul class="tarifa-features">
+          <li>10 min de Entrenamiento libre</li>
+          <li>15 min de Clasificación</li>
+          <li>20 vueltas de Carrera final</li>
+          <li><strong>1 Consumición GRATIS</strong></li>
+          <li>Medallas, podio y trofeo</li>
+        </ul>
+        <a href="/contacto.html" class="tarifa-cta">Reservar evento</a>
+      </div>
+    </div>
+
+    <p class="tarifas-note">
+      Consulta todas las ofertas, packs de cumpleaños o despedidas de soltero en nuestra
+      <a href="/tienda.html">tienda online →</a>
+    </p>
+  </div>
+</section>
+
+<!-- HORARIO -->
+<div id="horario">
+  <div class="horario-visual reveal">
+    <div class="horario-clock">
+      <div class="horario-ring">
+        <div class="horario-ring-dot"></div>
+      </div>
+      <div class="clock-inner">
+        <div class="clock-day">MAR–VIE</div>
+        <div class="clock-time">16–22h</div>
+        <div class="clock-label">ABIERTO</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="section-label">Planifica tu visita</div>
+    <h2 class="section-title">HORARIO<br><em>APERTURA</em></h2>
+
+    <div class="horario-list">
+      <div class="horario-row">
+        <span class="horario-day">Lunes</span>
+        <span class="horario-closed">Cerrado</span>
+      </div>
+      <div class="horario-row">
+        <span class="horario-day">Martes</span>
+        <span class="horario-time open">16:00 – 21:00</span>
+      </div>
+      <div class="horario-row">
+        <span class="horario-day">Miércoles</span>
+        <span class="horario-time open">16:00 – 21:00</span>
+      </div>
+      <div class="horario-row">
+        <span class="horario-day">Jueves</span>
+        <span class="horario-time open">16:00 – 21:00</span>
+      </div>
+      <div class="horario-row">
+        <span class="horario-day">Viernes</span>
+        <span class="horario-time open">16:00 – 22:00</span>
+      </div>
+      <div class="horario-row">
+        <span class="horario-day">Sábado</span>
+        <span class="horario-time open">11:00–14:00 · 16:00–22:00</span>
+      </div>
+      <div class="horario-row">
+        <span class="horario-day">Domingo</span>
+        <span class="horario-time open">11:00–14:00 · 16:00–21:00</span>
+      </div>
+    </div>
+
+    <div class="horario-cta">
+      <a href="https://wa.me/34685722119" class="btn-primary" target="_blank">Reservar por WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<!-- UBICACIÓN -->
+<section id="ubicacion">
+  <div class="section-label reveal">Encuéntranos</div>
+  <h2 class="section-title reveal">VISITA NUESTRAS<br><em>INSTALACIONES</em></h2>
+
+  <div class="ubicacion-inner reveal">
+    <div class="map-frame">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2903.0!2d-2.68!3d42.88!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sBig+Karting+Vitoria!5e0!3m2!1ses!2ses!4v1234"
+        allowfullscreen="" loading="lazy">
+      </iframe>
+      <div class="map-overlay"></div>
+    </div>
+
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Dirección</div>
+          <div class="contact-value">
+            <a href="https://maps.app.goo.gl/VJfNKkKuEDatjTwP8" target="_blank">
+              Ctra s/n 01196 Miñano Mayor, Álava
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Teléfono / WhatsApp</div>
+          <div class="contact-value">
+            <a href="tel:+34685722119">685 722 119</a>
+            <br><small style="color: var(--metal); font-size: 13px;">También disponible por WhatsApp</small>
+          </div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">
+            <a href="mailto:bigkartingvitoria@gmail.com">bigkartingvitoria@gmail.com</a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">🕐</div>
+        <div>
+          <div class="contact-label">Horario de atención</div>
+          <div class="contact-value" style="color: var(--metal); font-size: 14px;">
+            Mar–Jue: 16:00–21:00<br>
+            Vie: 16:00–22:00<br>
+            Sáb: 11:00–14:00 y 16:00–22:00<br>
+            Dom: 11:00–14:00 y 16:00–21:00
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERS -->
+<div id="partners">
+  <div class="partners-label">Colaboradores y patrocinadores</div>
+  <div class="partners-logos">
+    <div class="partner-logo" title="Carrefour">CARREFOUR</div>
+    <div class="partner-logo" title="CC Gorbeia">CC GORBEIA</div>
+    <div class="partner-logo" title="MT Helmets">MT HELMETS</div>
+    <div class="partner-logo" title="McDonald's">McDONALD'S</div>
+    <div class="partner-logo" title="Álava">ÁLAVA</div>
+  </div>
+</div>
+
+<!-- GALERÍA DEL CIRCUITO -->
+<section id="galeria">
+  <div class="section-inner">
+    <div class="section-label reveal">Nuestras instalaciones</div>
+    <h2 class="section-title reveal">VE LO QUE<br><em>TE ESPERA</em></h2>
+
+    <div class="galeria-grid reveal">
+      <div class="galeria-item">
+        <div class="galeria-item-bg" style="background-image: url('/galeria_circuito.png');"></div>
+        <div class="galeria-item-overlay">
+          <span class="galeria-item-label">Circuito Indoor</span>
+        </div>
+      </div>
+      <div class="galeria-item">
+        <div class="galeria-item-bg" style="background-image: url('/galeria_drift.png');"></div>
+        <div class="galeria-item-overlay">
+          <span class="galeria-item-label">Zona Drift</span>
+        </div>
+      </div>
+      <div class="galeria-item">
+        <div class="galeria-item-bg" style="background-image: url('/galeria_infantil.png');"></div>
+        <div class="galeria-item-overlay">
+          <span class="galeria-item-label">Karting Infantil</span>
+        </div>
+      </div>
+      <div class="galeria-item">
+        <div class="galeria-item-bg" style="background-image: url('/galeria_grupos.png');"></div>
+        <div class="galeria-item-overlay">
+          <span class="galeria-item-label">Grupos y Eventos</span>
+        </div>
+      </div>
+      <div class="galeria-item">
+        <div class="galeria-item-bg" style="background-image: url('/galeria_pits.png');"></div>
+        <div class="galeria-item-overlay">
+          <span class="galeria-item-label">Boxes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OCIO EN VITORIA -->
+<section id="ocio">
+  <div class="section-inner">
+    <div class="section-label reveal">Más que karting</div>
+    <h2 class="section-title reveal">OCIO EN<br><em>VITORIA-GASTEIZ</em></h2>
+    <p class="reveal" style="font-size:17px;font-weight:300;line-height:1.8;color:rgba(245,245,240,0.6);max-width:600px;margin-bottom:50px;">Big Karting no es solo velocidad. Somos el punto de referencia para el ocio activo en Álava. Una experiencia completa para familias, amigos, empresas y parejas que buscan algo diferente.</p>
+
+    <div class="ocio-grid reveal">
+      <div class="ocio-card">
+        <div class="ocio-card-num">01</div>
+        <span class="ocio-card-icon">🏎️</span>
+        <div class="ocio-card-title">KARTING ADULTOS</div>
+        <p class="ocio-card-desc">Para mayores de 14 años. Sesiones estándar de 10 min en circuito interior. Velocidad máxima de 70 km/h con karts homologados de competición.</p>
+      </div>
+      <div class="ocio-card">
+        <div class="ocio-card-num">02</div>
+        <span class="ocio-card-icon">💨</span>
+        <div class="ocio-card-title">DRIFT EXCLUSIVO</div>
+        <p class="ocio-card-desc">Único circuito de drift en el norte de España. Karts de drift especiales que simulan conducir sobre hielo. Una sensación completamente diferente.</p>
+      </div>
+      <div class="ocio-card">
+        <div class="ocio-card-num">03</div>
+        <span class="ocio-card-icon">⭐</span>
+        <div class="ocio-card-title">ZONA INFANTIL</div>
+        <p class="ocio-card-desc">Karts adaptados para niños desde 5 años. Monitores especializados. Cursillos de conducción y celebraciones de cumpleaños y fiestas.</p>
+      </div>
+      <div class="ocio-card">
+        <div class="ocio-card-num">04</div>
+        <span class="ocio-card-icon">🏆</span>
+        <div class="ocio-card-title">COMPETICIÓN Y LIGAS</div>
+        <p class="ocio-card-desc">Carreras cronometradas con clasificación en pantalla. Trofeos y pódium para los más rápidos. Consulta nuestros campeonatos regulares.</p>
+      </div>
+    </div>
+
+    <div class="reveal" style="margin-top: 50px; text-align: center;">
+      <a href="/contacto.html" class="btn-primary">Planifica tu visita</a>
+      <a href="tel:+34685722119" class="btn-outline" style="margin-left:16px;">📞 685 722 119</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<div class="red-stripe"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">BIG<span>K</span>ARTING</div>
+      <p class="footer-brand-desc">Descubre la emoción del karting en Vitoria-Gasteiz. Adrenalina, velocidad y diversión para todos. ¡No te arrepentirás!</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/bigkarting" class="social-link" target="_blank" title="Facebook">f</a>
+        <a href="https://www.instagram.com/bigkartingvitoria/" class="social-link" target="_blank" title="Instagram">ig</a>
+        <a href="https://www.youtube.com/channel/UCjcW5SSmGKrC0IZ1gl5xSjA" class="social-link" target="_blank" title="YouTube">yt</a>
+        <a href="https://wa.me/34685722119" class="social-link" target="_blank" title="WhatsApp">wa</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Karting</div>
+      <ul class="footer-links">
+        <li><a href="/carreras.html">Karting en Vitoria</a></li>
+        <li><a href="/drift.html">Drift</a></li>
+        <li><a href="/carreras.html">Carreras</a></li>
+        <li><a href="/infantil.html">Karts infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Grupos</div>
+      <ul class="footer-links">
+        <li><a href="/grupos.html#despedidas">Despedidas</a></li>
+        <li><a href="/grupos.html#teambuilding">Teambuilding</a></li>
+        <li><a href="/grupos.html#cumpleanos">Cumpleaños</a></li>
+        <li><a href="/grupos.html#fiestas-infantiles">Fiestas infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Más info</div>
+      <ul class="footer-links">
+        <li><a href="/index.html#tarifas">Tarifas</a></li>
+        <li><a href="/tienda.html">Tienda online</a></li>
+        <li><a href="/index.html">Ocio en Vitoria</a></li>
+        <li><a href="/contacto.html">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Big Karting Vitoria-Gasteiz · Miñano Mayor, Álava</div>
+    <div class="footer-legal">
+      <a href="/legal.html#aviso-legal">Aviso Legal</a>
+      <a href="/legal.html#privacidad">Privacidad</a>
+      <a href="/legal.html#cookies">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+
+</body>
+</html>

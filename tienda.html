@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Avanzado -->
+  <title>Tienda Online & Reservas de Karting Vitoria | Big Karting</title>
+  <meta name="description" content="Reserva tus sesiones de karting clásico y drift online. Compra tarjetas regalo de adrenalina para regalar. Descuentos en packs múltiples. Rápido y seguro.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bigkartingvitoria.com/tienda.html">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Tienda Online & Reservas de Karting Vitoria | Big Karting">
+  <meta property="og:description" content="Reserva tus sesiones de karting clásico y drift online. Compra tarjetas regalo de adrenalina. Descuentos en packs.">
+  <meta property="og:image" content="/assets/hero_kart.png">
+  <meta property="og:url" content="https://bigkartingvitoria.com/tienda.html">
+  <meta property="og:type" content="article">
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+
+<!-- Canvas global para Three.js WebGL -->
+<canvas id="hero-canvas"></canvas>
+
+<div id="cursor"></div>
+<div id="cursor-glow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="window.location.href='/index.html'">BIG<span>K</span>ARTING</div>
+  <ul class="nav-links">
+    <li><a href="/index.html#modalidades">Karting</a></li>
+    <li><a href="/grupos.html">Grupos</a></li>
+    <li><a href="/index.html#tarifas">Tarifas</a></li>
+    <li><a href="/index.html#horario">Horario</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+  <a class="nav-phone" href="tel:+34685722119">📞 685 722 119</a>
+  
+  <div class="nav-hamburger" id="hamburgerBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- Menú móvil Drawer -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <ul class="nav-mobile-links">
+    <li><a href="/index.html#modalidades">Karting</a></li>
+    <li><a href="/grupos.html">Grupos</a></li>
+    <li><a href="/index.html#tarifas">Tarifas</a></li>
+    <li><a href="/index.html#horario">Horario</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+  <a class="btn-primary" style="margin-top: 20px; text-align: center;" href="tel:+34685722119">📞 685 722 119</a>
+</div>
+
+<main>
+
+  <!-- subpage hero -->
+  <section id="hero" style="height: 60vh; min-height: 400px; display: flex; align-items: center; justify-content: center; position: relative;">
+    <div class="hero-track"></div>
+    <div class="hero-content" style="margin-top: 60px;">
+      <div class="hero-eyebrow">Reserva y Compra Online</div>
+      <h1 class="hero-title" style="font-size: clamp(48px, 8vw, 100px); line-height: 1;">
+        <span class="line1">TIENDA</span>
+        <span class="line2">ONLINE</span>
+      </h1>
+      <p class="hero-sub">Compra tus tickets de karting o tarjetas regalo y ahorra tiempo en pista</p>
+    </div>
+  </section>
+
+  <!-- SHOP CATALOG -->
+  <section style="background: rgba(17, 17, 17, 0.85); backdrop-filter: blur(8px); padding: 60px 20px;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <div class="section-label">Compra Rápida</div>
+          <h2 class="section-title" style="margin-bottom:0;">NUESTRO <em>CATÁLOGO</em></h2>
+        </div>
+        <!-- Carrito Flotante Mockup -->
+        <div style="background: rgba(28,28,28,0.7); border:1px solid rgba(255,255,255,0.08); padding:15px 30px; border-radius:30px; display:flex; align-items:center; gap:15px; box-shadow:0 10px 25px rgba(0,0,0,0.4);">
+          <span style="font-size: 20px;">🛒</span>
+          <span style="font-family:'Rajdhani', sans-serif; font-weight:700; color:#fff; font-size:14px; letter-spacing:1px;">CESTA: <span id="cart-count" style="color:var(--red);">0</span> ARTÍCULOS</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
+        
+        <!-- Item 1 -->
+        <div style="background:var(--dark); border:1px solid rgba(255,255,255,0.05); border-radius:12px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 10px 20px rgba(0,0,0,0.3); transition:transform 0.2s;" onmouseenter="this.style.transform='translateY(-5px)'" onmouseleave="this.style.transform='none'">
+          <div style="height: 180px; background: linear-gradient(135deg, rgba(232,0,30,0.15) 0%, rgba(20,20,20,0.8) 100%); display:flex; align-items:center; justify-content:center; font-size:64px; border-bottom:1px solid rgba(255,255,255,0.05);">🏁</div>
+          <div style="padding: 25px; display:flex; flex-direction:column; flex-grow:1;">
+            <div style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:var(--red); letter-spacing:2px; text-transform:uppercase;">Karting Clásico</div>
+            <h3 style="font-family:'Bebas Neue', sans-serif; font-size:24px; color:#fff; margin-top:5px; letter-spacing:1px;">TICKET SESIÓN INDIVIDUAL</h3>
+            <p style="font-size:13px; color:var(--metal); line-height:1.5; margin-top:10px; flex-grow:1;">1 Sesión de 10 minutos de karting clásico con cronometraje y hoja de tiempos en PDF.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+              <span style="font-family:'Bebas Neue', sans-serif; font-size:26px; color:#fff;">16,00 €</span>
+              <button onclick="const count=document.getElementById('cart-count'); count.textContent=parseInt(count.textContent)+1; alert('¡Artículo añadido a la cesta!');" class="btn-primary" style="padding:10px 20px; font-size:12px; border:none; cursor:pointer;">Comprar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div style="background:var(--dark); border:1px solid rgba(255,255,255,0.05); border-radius:12px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 10px 20px rgba(0,0,0,0.3); transition:transform 0.2s;" onmouseenter="this.style.transform='translateY(-5px)'" onmouseleave="this.style.transform='none'">
+          <div style="height: 180px; background: linear-gradient(135deg, rgba(245,200,0,0.15) 0%, rgba(20,20,20,0.8) 100%); display:flex; align-items:center; justify-content:center; font-size:64px; border-bottom:1px solid rgba(255,255,255,0.05);">💨</div>
+          <div style="padding: 25px; display:flex; flex-direction:column; flex-grow:1;">
+            <div style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:var(--yellow); letter-spacing:2px; text-transform:uppercase;">Derrapes Extremos</div>
+            <h3 style="font-family:'Bebas Neue', sans-serif; font-size:24px; color:#fff; margin-top:5px; letter-spacing:1px;">TICKET SESIÓN DRIFT</h3>
+            <p style="font-size:13px; color:var(--metal); line-height:1.5; margin-top:10px; flex-grow:1;">1 Sesión de 10 minutos en la pista de drift exclusiva con karts especiales de tracción trasera.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+              <span style="font-family:'Bebas Neue', sans-serif; font-size:26px; color:#fff;">18,00 €</span>
+              <button onclick="const count=document.getElementById('cart-count'); count.textContent=parseInt(count.textContent)+1; alert('¡Artículo añadido a la cesta!');" class="btn-primary" style="padding:10px 20px; font-size:12px; border:none; cursor:pointer;">Comprar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div style="background:var(--dark); border:1px solid rgba(255,255,255,0.05); border-radius:12px; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 10px 20px rgba(0,0,0,0.3); transition:transform 0.2s;" onmouseenter="this.style.transform='translateY(-5px)'" onmouseleave="this.style.transform='none'">
+          <div style="height: 180px; background: linear-gradient(135deg, rgba(0,255,255,0.15) 0%, rgba(20,20,20,0.8) 100%); display:flex; align-items:center; justify-content:center; font-size:64px; border-bottom:1px solid rgba(255,255,255,0.05);">🎁</div>
+          <div style="padding: 25px; display:flex; flex-direction:column; flex-grow:1;">
+            <div style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:#00ffff; letter-spacing:2px; text-transform:uppercase;">Regalos premium</div>
+            <h3 style="font-family:'Bebas Neue', sans-serif; font-size:24px; color:#fff; margin-top:5px; letter-spacing:1px;">TARJETA REGALO 50€</h3>
+            <p style="font-size:13px; color:var(--metal); line-height:1.5; margin-top:10px; flex-grow:1;">El regalo perfecto. Canjeable por cualquier sesión de carreras clásicas o de drift en ventanilla.</p>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px;">
+              <span style="font-family:'Bebas Neue', sans-serif; font-size:26px; color:#fff;">50,00 €</span>
+              <button onclick="const count=document.getElementById('cart-count'); count.textContent=parseInt(count.textContent)+1; alert('¡Artículo añadido a la cesta!');" class="btn-primary" style="padding:10px 20px; font-size:12px; border:none; cursor:pointer;">Comprar</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="red-stripe"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">BIG<span>K</span>ARTING</div>
+      <p class="footer-brand-desc">Descubre la emoción del karting en Vitoria-Gasteiz. Adrenalina, velocidad y diversión para todos. ¡No te arrepentirás!</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/bigkarting" class="social-link" target="_blank">f</a>
+        <a href="https://www.instagram.com/bigkartingvitoria/" class="social-link" target="_blank">ig</a>
+        <a href="https://wa.me/34685722119" class="social-link" target="_blank">wa</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Karting</div>
+      <ul class="footer-links">
+        <li><a href="/carreras.html">Karting en Vitoria</a></li>
+        <li><a href="/drift.html">Drift</a></li>
+        <li><a href="/carreras.html">Carreras</a></li>
+        <li><a href="/infantil.html">Karts infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Grupos</div>
+      <ul class="footer-links">
+        <li><a href="/grupos.html#despedidas">Despedidas</a></li>
+        <li><a href="/grupos.html#teambuilding">Teambuilding</a></li>
+        <li><a href="/grupos.html#cumpleanos">Cumpleaños</a></li>
+        <li><a href="/grupos.html#fiestas-infantiles">Fiestas infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Más info</div>
+      <ul class="footer-links">
+        <li><a href="/index.html#tarifas">Tarifas</a></li>
+        <li><a href="/tienda.html">Tienda online</a></li>
+        <li><a href="/index.html">Ocio en Vitoria</a></li>
+        <li><a href="/contacto.html">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Big Karting Vitoria-Gasteiz · Miñano Mayor, Álava</div>
+    <div class="footer-legal">
+      <a href="/legal.html#aviso-legal">Aviso Legal</a>
+      <a href="/legal.html#privacidad">Privacidad</a>
+      <a href="/legal.html#cookies">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

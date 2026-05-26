@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Avanzado -->
+  <title>Contacto, Teléfono y Ubicación en Miñano | Big Karting Vitoria</title>
+  <meta name="description" content="Contacta con Big Karting. Teléfono oficial, WhatsApp de reservas rápidas, dirección exacta en Miñano Mayor (Álava) y mapa interactivo. ¡Te esperamos!">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bigkartingvitoria.com/contacto.html">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Contacto, Teléfono y Ubicación en Miñano | Big Karting Vitoria">
+  <meta property="og:description" content="Contacta con Big Karting. Teléfono oficial, WhatsApp de reservas rápidas, dirección exacta en Miñano Mayor y mapa.">
+  <meta property="og:image" content="/assets/hero_kart.png">
+  <meta property="og:url" content="https://bigkartingvitoria.com/contacto.html">
+  <meta property="og:type" content="article">
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+
+<!-- Canvas global para Three.js WebGL -->
+<canvas id="hero-canvas"></canvas>
+
+<div id="cursor"></div>
+<div id="cursor-glow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="window.location.href='/index.html'">BIG<span>K</span>ARTING</div>
+  <ul class="nav-links">
+    <li><a href="/index.html#modalidades">Karting</a></li>
+    <li><a href="/grupos.html">Grupos</a></li>
+    <li><a href="/index.html#tarifas">Tarifas</a></li>
+    <li><a href="/index.html#horario">Horario</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+  <a class="nav-phone" href="tel:+34685722119">📞 685 722 119</a>
+  
+  <div class="nav-hamburger" id="hamburgerBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- Menú móvil Drawer -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <ul class="nav-mobile-links">
+    <li><a href="/index.html#modalidades">Karting</a></li>
+    <li><a href="/grupos.html">Grupos</a></li>
+    <li><a href="/index.html#tarifas">Tarifas</a></li>
+    <li><a href="/index.html#horario">Horario</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+  <a class="btn-primary" style="margin-top: 20px; text-align: center;" href="tel:+34685722119">📞 685 722 119</a>
+</div>
+
+<main>
+
+  <!-- subpage hero -->
+  <section id="hero" style="height: 60vh; min-height: 400px; display: flex; align-items: center; justify-content: center; position: relative;">
+    <div class="hero-track"></div>
+    <div class="hero-content" style="margin-top: 60px;">
+      <div class="hero-eyebrow">Estamos a tu disposición</div>
+      <h1 class="hero-title" style="font-size: clamp(48px, 8vw, 100px); line-height: 1;">
+        <span class="line1">CONTACTA</span>
+        <span class="line2">CON NOSOTROS</span>
+      </h1>
+      <p class="hero-sub">Visita nuestras instalaciones o reserva tu sesión por teléfono o email</p>
+    </div>
+  </section>
+
+  <!-- CONTACT FORMS AND MAP -->
+  <section style="background: rgba(17, 17, 17, 0.85); backdrop-filter: blur(8px); padding: 60px 40px;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: start;">
+      
+      <!-- Lado Izquierdo: Info & Maps -->
+      <div style="display:flex; flex-direction:column; gap:40px;">
+        <div>
+          <div class="section-label">Ubicación</div>
+          <h2 class="section-title" style="font-size:38px; margin-bottom:15px;">DÓNDE <em>ESTAMOS</em></h2>
+          <div class="contact-info">
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div>
+                <div class="contact-label">Dirección</div>
+                <div class="contact-value">
+                  <a href="https://maps.app.goo.gl/VJfNKkKuEDatjTwP8" target="_blank">
+                    Ctra s/n 01196 Miñano Mayor, Álava
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📞</div>
+              <div>
+                <div class="contact-label">Teléfono / WhatsApp</div>
+                <div class="contact-value">
+                  <a href="tel:+34685722119">685 722 119</a>
+                </div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div>
+                <div class="contact-label">Email</div>
+                <div class="contact-value">
+                  <a href="mailto:bigkartingvitoria@gmail.com">bigkartingvitoria@gmail.com</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Google Map Embed -->
+        <div class="map-frame" style="border-radius:12px; overflow:hidden;">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2903.0!2d-2.68!3d42.88!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sBig+Karting+Vitoria!5e0!3m2!1ses!2ses!4v1234"
+            allowfullscreen="" loading="lazy">
+          </iframe>
+          <div class="map-overlay"></div>
+        </div>
+      </div>
+
+      <!-- Lado Derecho: Contact Form -->
+      <div style="background: var(--dark); border: 1px solid rgba(255,255,255,0.05); padding: 50px 40px; border-radius: 12px; box-shadow: 0 15px 35px rgba(0,0,0,0.6);">
+        <div class="section-label">Atención Rápida</div>
+        <h3 class="section-title" style="font-size:32px; margin-bottom:25px;">ENVÍANOS UN <em>MENSAJE</em></h3>
+        
+        <form style="display: flex; flex-direction: column; gap: 20px;" onsubmit="alert('¡Gracias por tu mensaje! Lo responderemos lo antes posible.'); return false;">
+          <div>
+            <label style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:var(--red); letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:8px;">Nombre Completo</label>
+            <input type="text" required style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); padding:14px; font-family:'Exo 2', sans-serif; font-size:14px; color:#fff; width:100%; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); outline:none;">
+          </div>
+          <div>
+            <label style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:var(--yellow); letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:8px;">Email de Contacto</label>
+            <input type="email" required style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); padding:14px; font-family:'Exo 2', sans-serif; font-size:14px; color:#fff; width:100%; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); outline:none;">
+          </div>
+          <div>
+            <label style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:var(--red); letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:8px;">Asunto</label>
+            <input type="text" required style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); padding:14px; font-family:'Exo 2', sans-serif; font-size:14px; color:#fff; width:100%; clip-path:polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%); outline:none;">
+          </div>
+          <div>
+            <label style="font-family:'Rajdhani', sans-serif; font-size:11px; font-weight:700; color:var(--yellow); letter-spacing:2px; text-transform:uppercase; display:block; margin-bottom:8px;">Mensaje o Consulta</label>
+            <textarea rows="5" required style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); padding:14px; font-family:'Exo 2', sans-serif; font-size:14px; color:#fff; width:100%; resize:none; clip-path:polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%); outline:none;"></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="border:none; width:100%; text-align:center; padding:16px; margin-top:10px; cursor:pointer;">Enviar Mensaje</button>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<div class="red-stripe"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">BIG<span>K</span>ARTING</div>
+      <p class="footer-brand-desc">Descubre la emoción del karting en Vitoria-Gasteiz. Adrenalina, velocidad y diversión para todos. ¡No te arrepentirás!</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/bigkarting" class="social-link" target="_blank">f</a>
+        <a href="https://www.instagram.com/bigkartingvitoria/" class="social-link" target="_blank">ig</a>
+        <a href="https://wa.me/34685722119" class="social-link" target="_blank">wa</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Karting</div>
+      <ul class="footer-links">
+        <li><a href="/carreras.html">Karting en Vitoria</a></li>
+        <li><a href="/drift.html">Drift</a></li>
+        <li><a href="/carreras.html">Carreras</a></li>
+        <li><a href="/infantil.html">Karts infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Grupos</div>
+      <ul class="footer-links">
+        <li><a href="/grupos.html#despedidas">Despedidas</a></li>
+        <li><a href="/grupos.html#teambuilding">Teambuilding</a></li>
+        <li><a href="/grupos.html#cumpleanos">Cumpleaños</a></li>
+        <li><a href="/grupos.html#fiestas-infantiles">Fiestas infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Más info</div>
+      <ul class="footer-links">
+        <li><a href="/index.html#tarifas">Tarifas</a></li>
+        <li><a href="/tienda.html">Tienda online</a></li>
+        <li><a href="/index.html">Ocio en Vitoria</a></li>
+        <li><a href="/contacto.html">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Big Karting Vitoria-Gasteiz · Miñano Mayor, Álava</div>
+    <div class="footer-legal">
+      <a href="/legal.html#aviso-legal">Aviso Legal</a>
+      <a href="/legal.html#privacidad">Privacidad</a>
+      <a href="/legal.html#cookies">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

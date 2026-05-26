@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Avanzado -->
+  <title>Términos Legales, Privacidad y Cookies | Big Karting Vitoria</title>
+  <meta name="description" content="Consulta las condiciones generales, políticas de privacidad y uso de cookies aplicables en Big Karting. Navegación e información totalmente transparente.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://bigkartingvitoria.com/legal.html">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Términos Legales, Privacidad y Cookies | Big Karting Vitoria">
+  <meta property="og:description" content="Consulta las condiciones generales, políticas de privacidad y uso de cookies aplicables en Big Karting.">
+  <meta property="og:image" content="/assets/hero_kart.png">
+  <meta property="og:url" content="https://bigkartingvitoria.com/legal.html">
+  <meta property="og:type" content="article">
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <script type="module" src="/src/main.js"></script>
+  <style>
+    .legal-nav-item {
+      padding: 15px 20px;
+      background: rgba(255,255,255,0.02);
+      border-left: 3px solid transparent;
+      color: var(--metal);
+      font-family: 'Rajdhani', sans-serif;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .legal-nav-item:hover {
+      background: rgba(255,255,255,0.04);
+      color: #fff;
+    }
+    .legal-nav-item.active {
+      background: rgba(232,0,30,0.08);
+      border-left-color: var(--red);
+      color: #fff;
+    }
+    .policy-content {
+      display: none;
+    }
+    .policy-content.active {
+      display: block;
+    }
+    .legal-text-p {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: rgba(245,245,240,0.65);
+      margin-bottom: 20px;
+    }
+    .legal-text-h4 {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin: 30px 0 15px;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Canvas global para Three.js WebGL -->
+<canvas id="hero-canvas"></canvas>
+
+<div id="cursor"></div>
+<div id="cursor-glow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="window.location.href='/index.html'">BIG<span>K</span>ARTING</div>
+  <ul class="nav-links">
+    <li><a href="/index.html#modalidades">Karting</a></li>
+    <li><a href="/grupos.html">Grupos</a></li>
+    <li><a href="/index.html#tarifas">Tarifas</a></li>
+    <li><a href="/index.html#horario">Horario</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+  <a class="nav-phone" href="tel:+34685722119">📞 685 722 119</a>
+  
+  <div class="nav-hamburger" id="hamburgerBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- Menú móvil Drawer -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <ul class="nav-mobile-links">
+    <li><a href="/index.html#modalidades">Karting</a></li>
+    <li><a href="/grupos.html">Grupos</a></li>
+    <li><a href="/index.html#tarifas">Tarifas</a></li>
+    <li><a href="/index.html#horario">Horario</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+  <a class="btn-primary" style="margin-top: 20px; text-align: center;" href="tel:+34685722119">📞 685 722 119</a>
+</div>
+
+<main>
+
+  <!-- subpage hero -->
+  <section id="hero" style="height: 50vh; min-height: 350px; display: flex; align-items: center; justify-content: center; position: relative;">
+    <div class="hero-track"></div>
+    <div class="hero-content" style="margin-top: 60px;">
+      <div class="hero-eyebrow">Big Karting Vitoria</div>
+      <h1 class="hero-title" style="font-size: clamp(48px, 8vw, 100px); line-height: 1;">
+        <span class="line1">TÉRMINOS</span>
+        <span class="line2">LEGALES</span>
+      </h1>
+      <p class="hero-sub">Políticas legales, de privacidad y uso de cookies aplicables</p>
+    </div>
+  </section>
+
+  <!-- TERMS CONTAINER -->
+  <section style="background: rgba(17, 17, 17, 0.85); backdrop-filter: blur(8px); padding: 60px 40px;">
+    <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 0.8fr 2.2fr; gap: 50px; align-items: start;">
+      
+      <!-- Lado Izquierdo: Nav Selector -->
+      <div style="background: var(--dark); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; overflow:hidden; position: sticky; top: 120px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+        <div id="btn-aviso-legal" class="legal-nav-item active" onclick="switchTab('aviso-legal')">Aviso Legal</div>
+        <div id="btn-privacidad" class="legal-nav-item" onclick="switchTab('privacidad')">Política de Privacidad</div>
+        <div id="btn-cookies" class="legal-nav-item" onclick="switchTab('cookies')">Política de Cookies</div>
+      </div>
+
+      <!-- Lado Derecho: Policy Content -->
+      <div style="background: rgba(28,28,28,0.4); border: 1px solid rgba(255,255,255,0.03); padding: 50px 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.4);">
+        
+        <!-- Tab Aviso Legal -->
+        <div id="tab-aviso-legal" class="policy-content active">
+          <div class="section-label">Condiciones Generales</div>
+          <h2 class="section-title" style="font-size:32px; margin-bottom:25px;">AVISO <em>LEGAL</em></h2>
+          
+          <p class="legal-text-p">
+            De conformidad con el artículo 10 de la Ley 34/2002, del 11 de julio, de Servicios de la Sociedad de la Información y Comercio Electrónico (LSSI-CE), se informa a los usuarios de las siguientes condiciones de uso generales de la web de Big Karting.
+          </p>
+          
+          <h4 class="legal-text-h4">1. Identidad del Propietario</h4>
+          <p class="legal-text-p">
+            Esta página web e instalaciones comerciales son de titularidad de Big Karting Vitoria-Gasteiz, ubicada físicamente en Carretera s/n, 01196 Miñano Mayor, Álava, España. Contacto principal por email en bigkartingvitoria@gmail.com o por teléfono en 685 722 119.
+          </p>
+
+          <h4 class="legal-text-h4">2. Propiedad Intelectual y Uso del Sitio</h4>
+          <p class="legal-text-p">
+            Todos los textos, logotipos, imágenes prediseñadas, e interfaces 3D WebGL de Three.js provistos en este sitio web están protegidos por derechos de autor y propiedad intelectual. Queda prohibida la reproducción parcial o total del contenido sin la autorización previa y por escrito de la administración del circuito.
+          </p>
+        </div>
+
+        <!-- Tab Privacidad -->
+        <div id="tab-privacidad" class="policy-content">
+          <div class="section-label">Protección de Datos</div>
+          <h2 class="section-title" style="font-size:32px; margin-bottom:25px;">POLÍTICA DE <em>PRIVACIDAD</em></h2>
+          
+          <p class="legal-text-p">
+            De acuerdo con el Reglamento General de Protección de Datos (RGPD) de la Unión Europea y la Ley Orgánica de Protección de Datos y Garantía de Derechos Digitales (LOPDGDD), Big Karting se compromete al tratamiento confidencial y transparente de tus datos personales.
+          </p>
+
+          <h4 class="legal-text-h4">1. Recogida de Datos y Finalidad</h4>
+          <p class="legal-text-p">
+            Los datos facilitados mediante nuestros formularios locales de reservas e información (nombre, teléfono, email) son utilizados únicamente para la gestión de las citas y consultas, así como la facturación de tickets de tienda. En ningún caso se cederán datos a terceros sin consentimiento expreso.
+          </p>
+
+          <h4 class="legal-text-h4">2. Tus Derechos de Privacidad</h4>
+          <p class="legal-text-p">
+            Tienes derecho a acceder, rectificar, limitar el tratamiento o solicitar la supresión completa de tus datos personales enviando un correo electrónico directamente a bigkartingvitoria@gmail.com adjuntando una fotocopia de tu documento de identidad para verificación.
+          </p>
+        </div>
+
+        <!-- Tab Cookies -->
+        <div id="tab-cookies" class="policy-content">
+          <div class="section-label">Uso del Navegador</div>
+          <h2 class="section-title" style="font-size:32px; margin-bottom:25px;">POLÍTICA DE <em>COOKIES</em></h2>
+          
+          <p class="legal-text-p">
+            En Big Karting utilizamos cookies propias de sesión y analíticas de terceros para mejorar la velocidad y la experiencia de navegación del usuario, así como facilitar los cálculos y persistencia simulada de los carritos de reserva.
+          </p>
+
+          <h4 class="legal-text-h4">1. ¿Qué es una cookie?</h4>
+          <p class="legal-text-p">
+            Una cookie es un pequeño archivo de texto que el sitio web almacena en el disco duro o memoria de tu ordenador o teléfono móvil para recordar tus preferencias y configuraciones al navegar o retornar a la web en futuras visitas.
+          </p>
+
+          <h4 class="legal-text-h4">2. Configuración y Rechazo</h4>
+          <p class="legal-text-p">
+            Puedes habilitar, deshabilitar o bloquear por completo el almacenamiento de cookies en cualquier momento ajustando los parámetros correspondientes de privacidad en la configuración técnica de tu navegador (Chrome, Firefox, Safari, Edge).
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<div class="red-stripe"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">BIG<span>K</span>ARTING</div>
+      <p class="footer-brand-desc">Descubre la emoción del karting en Vitoria-Gasteiz. Adrenalina, velocidad y diversión para todos. ¡No te arrepentirás!</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/bigkarting" class="social-link" target="_blank">f</a>
+        <a href="https://www.instagram.com/bigkartingvitoria/" class="social-link" target="_blank">ig</a>
+        <a href="https://wa.me/34685722119" class="social-link" target="_blank">wa</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Karting</div>
+      <ul class="footer-links">
+        <li><a href="/carreras.html">Karting en Vitoria</a></li>
+        <li><a href="/drift.html">Drift</a></li>
+        <li><a href="/carreras.html">Carreras</a></li>
+        <li><a href="/infantil.html">Karts infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Grupos</div>
+      <ul class="footer-links">
+        <li><a href="/grupos.html#despedidas">Despedidas</a></li>
+        <li><a href="/grupos.html#teambuilding">Teambuilding</a></li>
+        <li><a href="/grupos.html#cumpleanos">Cumpleaños</a></li>
+        <li><a href="/grupos.html#fiestas-infantiles">Fiestas infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Más info</div>
+      <ul class="footer-links">
+        <li><a href="/index.html#tarifas">Tarifas</a></li>
+        <li><a href="/tienda.html">Tienda online</a></li>
+        <li><a href="/index.html">Ocio en Vitoria</a></li>
+        <li><a href="/contacto.html">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Big Karting Vitoria-Gasteiz · Miñano Mayor, Álava</div>
+    <div class="footer-legal">
+      <a href="/legal.html#aviso-legal">Aviso Legal</a>
+      <a href="/legal.html#privacidad">Privacidad</a>
+      <a href="/legal.html#cookies">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function switchTab(tabId) {
+    // Quitar activa de todos los botones y contenidos
+    document.querySelectorAll('.legal-nav-item').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.policy-content').forEach(tab => tab.classList.remove('active'));
+
+    // Activar seleccionados
+    const activeBtn = document.getElementById('btn-' + tabId);
+    const activeTab = document.getElementById('tab-' + tabId);
+    
+    if (activeBtn && activeTab) {
+      activeBtn.classList.add('active');
+      activeTab.classList.add('active');
+    }
+  }
+
+  // Leer hash de URL al cargar
+  window.addEventListener('DOMContentLoaded', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash === 'aviso-legal' || hash === 'privacidad' || hash === 'cookies') {
+      switchTab(hash);
+    }
+  });
+
+  // Leer hash de URL al cambiar
+  window.addEventListener('hashchange', () => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash === 'aviso-legal' || hash === 'privacidad' || hash === 'cookies') {
+      switchTab(hash);
+    }
+  });
+</script>
+
+</body>
+</html>
