@@ -409,24 +409,9 @@ export function init3DScene() {
     };
 
     const updateCanvasVisibility = () => {
-      if (isMobile && canvas) {
-        if (window.scrollY > heroThreshold + 30) {
-          if (isCanvasVisible) {
-            canvas.classList.add('hidden');
-            isCanvasVisible = false;
-          }
-        } else {
-          if (!isCanvasVisible) {
-            canvas.classList.remove('hidden');
-            isCanvasVisible = true;
-          }
-        }
-      } else if (canvas) {
-        // En escritorio siempre visible para el efecto de scroll parallax
-        if (!isCanvasVisible) {
-          canvas.classList.remove('hidden');
-          isCanvasVisible = true;
-        }
+      if (canvas && !isCanvasVisible) {
+        canvas.classList.remove('hidden');
+        isCanvasVisible = true;
       }
     };
 
@@ -549,72 +534,116 @@ export function init3DScene() {
       let targetKartRotZ = scrollSpeed * 4.0 - currentMouseX * 0.08; // Inclinación lateral
       let targetScale = isMobile ? 0.65 : 1.0;
 
-      // Transición fluida por fases de órbita elíptica
-      if (scrollPercent < 0.25) {
-        // FASE 1: HERO SPLIT
-        const p = scrollPercent / 0.25;
+      // Transición fluida por fases de órbita elíptica (Esquiva y Acompañamiento 3D Completo)
+      const isDesk = !isMobile;
+      let targetKartX = 0;
+
+      if (scrollPercent < 0.28) {
+        // FASE 1: HERO (Texto a la izquierda -> Kart a la DERECHA)
+        const p = scrollPercent / 0.28;
         const angle = THREE.MathUtils.lerp(0.3, Math.PI / 3, p);
-        const radius = 5.5;
-        targetCamX = Math.sin(angle) * radius + (isMobile ? 0 : 1.2);
+        const radius = 5.0; 
+        targetCamX = Math.sin(angle) * radius + (isDesk ? 0.8 : 0);
         targetCamY = THREE.MathUtils.lerp(0.6, 1.6, p);
         targetCamZ = Math.cos(angle) * radius;
         
-        targetLookX = isMobile ? 0 : 1.8;
+        targetLookX = isDesk ? 1.5 : 0;
         targetLookY = THREE.MathUtils.lerp(-0.6, 0.15, p);
         targetLookZ = 0;
         
         targetKartRotY = Math.PI - 0.4 + currentMouseX * 0.25;
-        targetScale = THREE.MathUtils.lerp(isMobile ? 0.65 : 1.0, isMobile ? 0.46 : 0.72, p);
-      } else if (scrollPercent >= 0.25 && scrollPercent < 0.55) {
-        // FASE 2: MODALIDADES
-        const p = (scrollPercent - 0.25) / 0.30;
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.65 : 1.05, isMobile ? 0.46 : 1.0, p);
+        targetKartX = isDesk ? 1.5 : 0;
+      } else if (scrollPercent >= 0.28 && scrollPercent < 0.52) {
+        // FASE 2: MODALIDADES (Texto a la derecha -> Kart a la IZQUIERDA)
+        const p = (scrollPercent - 0.28) / 0.24;
         const angle = THREE.MathUtils.lerp(Math.PI / 3, Math.PI / 1.7, p);
-        const radius = THREE.MathUtils.lerp(5.2, 3.3, p);
-        targetCamX = Math.sin(angle) * radius;
+        const radius = THREE.MathUtils.lerp(5.0, 3.0, p);
+        targetCamX = Math.sin(angle) * radius - (isDesk ? 0.8 : 0);
         targetCamY = THREE.MathUtils.lerp(1.8, 0.85, p);
         targetCamZ = Math.cos(angle) * radius;
         
-        targetLookX = THREE.MathUtils.lerp(0, 0.35, p);
+        targetLookX = isDesk ? -1.5 : 0;
         targetLookY = THREE.MathUtils.lerp(0.25, 0.15, p);
         targetLookZ = THREE.MathUtils.lerp(0, -0.15, p);
         
         targetKartRotY = THREE.MathUtils.lerp(Math.PI - 0.4, Math.PI - 0.9 + currentMouseX * 0.1, p);
-        targetScale = THREE.MathUtils.lerp(isMobile ? 0.46 : 0.72, isMobile ? 0.55 : 0.85, p);
-      } else if (scrollPercent >= 0.55 && scrollPercent < 0.85) {
-        // FASE 3: DRIFT
-        const p = (scrollPercent - 0.55) / 0.30;
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.46 : 1.0, isMobile ? 0.55 : 1.25, p);
+        targetKartX = isDesk ? -1.5 : 0;
+      } else if (scrollPercent >= 0.52 && scrollPercent < 0.70) {
+        // FASE 3: DRIFT (Texto a la izquierda -> Kart a la DERECHA)
+        const p = (scrollPercent - 0.52) / 0.18;
         const angle = THREE.MathUtils.lerp(Math.PI / 1.7, Math.PI * 1.15, p);
-        const radius = THREE.MathUtils.lerp(3.3, 4.9, p);
-        targetCamX = Math.sin(angle) * radius;
+        const radius = THREE.MathUtils.lerp(3.0, 4.4, p);
+        targetCamX = Math.sin(angle) * radius + (isDesk ? 0.8 : 0);
         targetCamY = THREE.MathUtils.lerp(0.85, 0.45, p);
         targetCamZ = Math.cos(angle) * radius;
         
-        targetLookX = THREE.MathUtils.lerp(0.35, -0.5, p);
+        targetLookX = isDesk ? 1.5 : 0;
         targetLookY = THREE.MathUtils.lerp(0.15, 0.25, p);
         targetLookZ = THREE.MathUtils.lerp(-0.15, 0.25, p);
         
         targetKartRotY = THREE.MathUtils.lerp(Math.PI - 0.9, Math.PI / 2.5 + currentMouseX * 0.18, p);
-        targetScale = THREE.MathUtils.lerp(isMobile ? 0.55 : 0.85, isMobile ? 0.42 : 0.65, p);
-      } else {
-        // FASE 4: CONTACTO Y FOOTER
-        const p = Math.min((scrollPercent - 0.85) / 0.15, 1.0);
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.55 : 1.25, isMobile ? 0.42 : 1.15, p);
+        targetKartX = isDesk ? 1.5 : 0;
+      } else if (scrollPercent >= 0.70 && scrollPercent < 0.82) {
+        // FASE 4: GRUPOS (Plano Cenital Espectacular, Kart Centrado)
+        const p = (scrollPercent - 0.70) / 0.12;
         const angle = THREE.MathUtils.lerp(Math.PI * 1.15, Math.PI * 1.5, p);
-        const radius = THREE.MathUtils.lerp(4.9, 6.2, p);
+        const radius = THREE.MathUtils.lerp(4.4, 5.8, p);
         targetCamX = Math.sin(angle) * radius * (1 - p);
-        targetCamY = THREE.MathUtils.lerp(0.45, 5.8, p);
-        targetCamZ = Math.cos(angle) * radius * (1 - p);
+        targetCamY = THREE.MathUtils.lerp(0.45, 4.8, p); // elevar cámara arriba
+        targetCamZ = Math.cos(angle) * radius * (1 - p) + THREE.MathUtils.lerp(0, 0.01, p); // mirar casi vertical
         
-        if (p > 0.95) {
-          targetCamX = 0;
-          targetCamZ = 0.01;
-        }
+        targetLookX = 0;
+        targetLookY = THREE.MathUtils.lerp(0.25, 0.0, p);
+        targetLookZ = 0;
         
-        targetLookX = THREE.MathUtils.lerp(-0.5, 0, p);
-        targetLookY = THREE.MathUtils.lerp(0.25, 0, p);
-        targetLookZ = THREE.MathUtils.lerp(0.25, 0, p);
+        targetKartRotY = THREE.MathUtils.lerp(Math.PI / 2.5, Math.PI * 1.5 + time * 0.08, p); // suave auto-rotación estética
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.42 : 1.15, isMobile ? 0.55 : 1.20, p);
+        targetKartX = 0;
+      } else if (scrollPercent >= 0.82 && scrollPercent < 0.90) {
+        // FASE 5: TARIFAS (Zoom Lateral de Catálogo, Kart Centrado)
+        const p = (scrollPercent - 0.82) / 0.08;
+        targetCamX = THREE.MathUtils.lerp(0, -2.6, p); // plano lateral
+        targetCamY = THREE.MathUtils.lerp(4.8, 0.6, p);  // bajar cámara
+        targetCamZ = THREE.MathUtils.lerp(0.01, 1.4, p); // acercar
         
-        targetKartRotY = THREE.MathUtils.lerp(Math.PI / 2.5, Math.PI + currentMouseX * 0.1, p);
-        targetScale = THREE.MathUtils.lerp(isMobile ? 0.42 : 0.65, isMobile ? 0.30 : 0.45, p);
+        targetLookX = 0;
+        targetLookY = THREE.MathUtils.lerp(0, 0.1, p);
+        targetLookZ = 0;
+        
+        targetKartRotY = THREE.MathUtils.lerp(Math.PI * 1.5, Math.PI + Math.PI / 4, p); // diagonal
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.55 : 1.20, isMobile ? 0.6 : 1.30, p); // gran tamaño
+        targetKartX = 0;
+      } else if (scrollPercent >= 0.90 && scrollPercent < 0.96) {
+        // FASE 6: HORARIOS Y CONTACTO (Detalle Frontal, Cockpit/Volante)
+        const p = (scrollPercent - 0.90) / 0.06;
+        targetCamX = THREE.MathUtils.lerp(-2.6, 0.0, p);
+        targetCamY = THREE.MathUtils.lerp(0.6, 0.9, p);
+        targetCamZ = THREE.MathUtils.lerp(1.4, 2.5, p);
+        
+        targetLookX = 0;
+        targetLookY = 0.15;
+        targetLookZ = 0;
+        
+        targetKartRotY = THREE.MathUtils.lerp(Math.PI + Math.PI / 4, Math.PI * 2 - 0.3, p); // de cara al piloto
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.6 : 1.30, isMobile ? 0.5 : 1.10, p);
+        targetKartX = 0;
+      } else {
+        // FASE 7: FOOTER (Alejamiento Cenital Amplio)
+        const p = Math.min((scrollPercent - 0.96) / 0.04, 1.0);
+        targetCamX = 0;
+        targetCamY = THREE.MathUtils.lerp(0.9, 3.8, p);
+        targetCamZ = THREE.MathUtils.lerp(2.5, 4.8, p);
+        
+        targetLookX = 0;
+        targetLookY = THREE.MathUtils.lerp(0.15, 0.0, p);
+        targetLookZ = 0;
+        
+        targetKartRotY = THREE.MathUtils.lerp(Math.PI * 2 - 0.3, Math.PI * 2 + time * 0.1, p); // rotación infinita en footer
+        targetScale = THREE.MathUtils.lerp(isMobile ? 0.5 : 1.10, isMobile ? 0.3 : 0.60, p); // pequeño y elegante
+        targetKartX = 0;
       }
 
       // Aplicar amortiguación Lerp tipo Dron a la Cámara y Foco (6% por cuadro)
@@ -628,7 +657,6 @@ export function init3DScene() {
       currentLookZ += (targetLookZ - currentLookZ) * lerpFactor;
 
       // Aplicar Lerp al KART (suspensión senoidal y rotaciones fijas)
-      const targetKartX = (scrollPercent < 0.25 && !isMobile) ? 1.8 : 0;
       kartGroup.position.x += (targetKartX - kartGroup.position.x) * 0.07;
       kartGroup.position.y += (targetKartY - kartGroup.position.y) * 0.07;
       kartGroup.position.z += (0 - kartGroup.position.z) * 0.07;
