@@ -47,6 +47,7 @@ export function init3DScene() {
         }
       `,
       fragmentShader: `
+        precision highp float;
         uniform float uTime;
         uniform vec2  uResolution;
         void main() {
@@ -78,12 +79,15 @@ export function init3DScene() {
     scene.add(bgMesh);
 
     // === SUELO ESPEJO OSCURO (Estudio fotográfico) ===
-    // Un plano que refleja las luces como asfalto mojado pulido
-    const floorGeom = new THREE.PlaneGeometry(30, 30);
-    const floorMat = new THREE.MeshStandardMaterial({
-      color: 0x06060c,
-      metalness: 0.92,
-      roughness: 0.28,
+    // Un plano que refleja las luces como asfalto mojado pulido con clearcoat de automoción premium
+    const floorGeom = new THREE.PlaneGeometry(35, 35);
+    const floorMat = new THREE.MeshPhysicalMaterial({
+      color: 0x020206,
+      metalness: 0.95,
+      roughness: 0.12,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.08,
+      reflectivity: 0.9,
     });
     const floor = new THREE.Mesh(floorGeom, floorMat);
     floor.rotation.x = -Math.PI / 2;
@@ -136,11 +140,16 @@ export function init3DScene() {
     const ambientLight = new THREE.AmbientLight(0x08080f, 1.0);
     scene.add(ambientLight);
 
+    // 6. HemisphereLight de alta calidad para evitar modelos oscuros/negros en moviles sin envMap
+    const hemiLight = new THREE.HemisphereLight(0xfff5ea, 0x080815, 3.5);
+    scene.add(hemiLight);
+
     // === MODELO DE KART 3D (MIGRACIÓN GLB CON FALLBACK HUD) ===
     const kartGroup = new THREE.Group();
     scene.add(kartGroup);
 
     const wheels = [];
+    const glowMeshes = [];
 
     // Inicializar cargador HUD Cyber-Loader
     const { updateLoader, removeLoader, loadingMessages } = initLoader();
@@ -150,8 +159,9 @@ export function init3DScene() {
     // Timeout de seguridad de 15 segundos
     const loadTimeout = setTimeout(() => {
       if (!hasLoadedModel) {
-        console.warn("La carga del modelo 3D GLB excedió el tiempo límite. Cerrando loader...");
+        console.warn("La carga del modelo 3D GLB excedió el tiempo límite. Mostrando escena de fondo...");
         hasLoadedModel = true;
+        if (canvas) canvas.classList.add('visible');
         removeLoader();
       }
     }, 15000);
@@ -199,14 +209,17 @@ export function init3DScene() {
             child.frustumCulled = false; // Desactivar culling para forzar pre-carga total en la GPU y evitar tirones al rotar la cámara
 
             if (child.material) {
-              child.material.roughness = 0.15;
-              child.material.metalness = 0.85;
+              child.material.roughness = isMobile ? 0.38 : 0.15;
+              child.material.metalness = isMobile ? 0.35 : 0.85;
 
               // Añadir emisividad para partes incandescentes/neon
               const name = child.name.toLowerCase();
               if (name.includes('neon') || name.includes('glow') || name.includes('led') || name.includes('luz')) {
+                // Clonar material para evitar cambiar otros elementos no emisivos compartidos
+                child.material = child.material.clone();
                 child.material.emissive = child.material.color || new THREE.Color(0xff5a00);
                 child.material.emissiveIntensity = 2.5;
+                glowMeshes.push(child);
               }
             }
 
@@ -289,6 +302,24 @@ export function init3DScene() {
     studioGrid.material.opacity = 0.35;
     trackGroup.add(studioGrid);
 
+    // Líneas discontinuas centrales neón para la sensación de pista infinita
+    const dashCount = 8;
+    const dashes = [];
+    const dashGeom = new THREE.PlaneGeometry(0.1, 1.4);
+    const dashMat = new THREE.MeshBasicMaterial({
+      color: 0xff5a00,
+      transparent: true,
+      opacity: 0.45,
+      side: THREE.DoubleSide
+    });
+    for (let i = 0; i < dashCount; i++) {
+      const dash = new THREE.Mesh(dashGeom, dashMat);
+      dash.rotation.x = -Math.PI / 2;
+      dash.position.set(0, -2.095, -16 + i * 4);
+      trackGroup.add(dash);
+      dashes.push(dash);
+    }
+
     // === SISTEMA DE PARTÍCULAS: POLVO DE ESTUDIO ===
     // Partículas muy sutiles y lentas (polvo en el aire, look profesional)
     const particleCount = 80;
@@ -315,6 +346,92 @@ export function init3DScene() {
     const speedParticles = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(speedParticles);
 
+    // === SISTEMA DE PARTÍCULAS: FLAMA DE ESCAPE REACTIVA (BACKFIRE) ===
+    const flameMaxCount = 150;
+    const flameGeometry = new THREE.BufferGeometry();
+    const flamePositions = new Float32Array(flameMaxCount * 3);
+    const flameColors = new Float32Array(flameMaxCount * 3);
+
+    // Inicializar posiciones y colores (todos en 0 por defecto / ocultos)
+    for (let i = 0; i < flameMaxCount; i++) {
+      flamePositions[i * 3] = 0;
+      flamePositions[i * 3 + 1] = -999; // Ocultar debajo del mapa
+      flamePositions[i * 3 + 2] = 0;
+      
+      flameColors[i * 3] = 1.0;
+      flameColors[i * 3 + 1] = 0.8;
+      flameColors[i * 3 + 2] = 0.0;
+    }
+
+    flameGeometry.setAttribute('position', new THREE.BufferAttribute(flamePositions, 3));
+    flameGeometry.setAttribute('color', new THREE.BufferAttribute(flameColors, 3));
+
+    // Material de partículas con mezcla aditiva para un brillo de fuego incandescente
+    const flameMaterial = new THREE.PointsMaterial({
+      size: 0.28,
+      transparent: true,
+      opacity: 0.95,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      vertexColors: true,
+    });
+
+    const exhaustFlames = new THREE.Points(flameGeometry, flameMaterial);
+    scene.add(exhaustFlames);
+
+    // Estado del ciclo de vida de cada partícula de fuego
+    const flameParticles = [];
+    for (let i = 0; i < flameMaxCount; i++) {
+      flameParticles.push({
+        active: false,
+        x: 0, y: 0, z: 0,
+        vx: 0, vy: 0, vz: 0,
+        life: 0,
+        maxLife: 0
+      });
+    }
+
+    // === SISTEMA DE PARTÍCULAS: CHISPAS DE DERRAPE (DRIFT SPARKS) ===
+    const sparkMaxCount = 200;
+    const sparkGeometry = new THREE.BufferGeometry();
+    const sparkPositions = new Float32Array(sparkMaxCount * 3);
+    const sparkColors = new Float32Array(sparkMaxCount * 3);
+
+    for (let i = 0; i < sparkMaxCount; i++) {
+      sparkPositions[i * 3] = 0;
+      sparkPositions[i * 3 + 1] = -999;
+      sparkPositions[i * 3 + 2] = 0;
+
+      sparkColors[i * 3] = 0.0;
+      sparkColors[i * 3 + 1] = 0.8;
+      sparkColors[i * 3 + 2] = 1.0;
+    }
+
+    sparkGeometry.setAttribute('position', new THREE.BufferAttribute(sparkPositions, 3));
+    sparkGeometry.setAttribute('color', new THREE.BufferAttribute(sparkColors, 3));
+
+    const sparkMaterial = new THREE.PointsMaterial({
+      size: 0.16,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      vertexColors: true,
+    });
+
+    const driftSparks = new THREE.Points(sparkGeometry, sparkMaterial);
+    scene.add(driftSparks);
+
+    const sparkParticles = [];
+    for (let i = 0; i < sparkMaxCount; i++) {
+      sparkParticles.push({
+        active: false,
+        x: 0, y: 0, z: 0,
+        vx: 0, vy: 0, vz: 0,
+        life: 0,
+        maxLife: 0,
+      });
+    }
     const arches = []; // vacío — solo para compatibilidad
 
     // === SISTEMAS DE CAPTURA DE MOUSE & SCROLL ===
@@ -323,6 +440,7 @@ export function init3DScene() {
     let currentMouseX = 0;
     let currentMouseY = 0;
     let scrollPercent = 0;
+    let isTurbo = false; // Estado para el Turbo Boost en móviles
 
     // === INTERACTIVIDAD DRAG-TO-ROTATE (ELEMENTO 3D REACTIVO Y) ===
     const heroSection = document.getElementById('hero');
@@ -330,15 +448,78 @@ export function init3DScene() {
     let previousMousePosition = { x: 0, y: 0 };
     let dragRotationY = 0;
 
-    if (heroSection) {
-      // Cambiar cursor estético sobre el Hero para sugerir interactividad
-      heroSection.style.cursor = 'grab';
+    // Registrar eventos táctiles globales en window/document para esquivar solapamiento de capas en móvil
+    let touchStartTime = 0;
+    let turboTimer = null;
 
-      heroSection.addEventListener('mousedown', (e) => {
-        // Evitamos arrastre si hace clic en enlaces/botones
-        if (e.target.closest('a') || e.target.closest('button')) return;
+    window.addEventListener('touchstart', (e) => {
+      // Solo actuar si estamos en la zona superior (dentro de los primeros 420px del Hero)
+      if (window.scrollY > 150) return;
+      if (e.target.closest('a') || e.target.closest('button') || e.target.closest('nav') || e.target.closest('#mobileMenu')) return;
+      
+      if (e.touches.length === 1) {
         isDragging = true;
-        heroSection.style.cursor = 'grabbing';
+        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        
+        touchStartTime = Date.now();
+        if (turboTimer) clearTimeout(turboTimer);
+        
+        turboTimer = setTimeout(() => {
+          if (isDragging && !isTurbo) {
+            isTurbo = true;
+            if (navigator.vibrate) {
+              navigator.vibrate([60, 40, 60]);
+            }
+          }
+        }, 120); // Retraso de 120ms más reactivo
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging || e.touches.length !== 1) return;
+      
+      const deltaX = Math.abs(e.touches[0].clientX - previousMousePosition.x);
+      const deltaY = Math.abs(e.touches[0].clientY - previousMousePosition.y);
+      
+      if (deltaY > deltaX * 1.1) {
+        isDragging = false;
+        isTurbo = false;
+        if (turboTimer) clearTimeout(turboTimer);
+        return;
+      }
+
+      if (deltaX > 8) {
+        if (turboTimer) clearTimeout(turboTimer);
+      }
+
+      const deltaMove = {
+        x: e.touches[0].clientX - previousMousePosition.x,
+        y: e.touches[0].clientY - previousMousePosition.y
+      };
+
+      dragRotationY = Math.max(-0.78, Math.min(0.78, dragRotationY + deltaMove.x * 0.009));
+      previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    }, { passive: true });
+
+    const endTouchHandler = () => {
+      isDragging = false;
+      isTurbo = false;
+      if (turboTimer) {
+        clearTimeout(turboTimer);
+        turboTimer = null;
+      }
+    };
+
+    window.addEventListener('touchend', endTouchHandler);
+    window.addEventListener('touchcancel', endTouchHandler);
+
+    if (canvas) {
+      // Cambiar cursor estético sobre el Canvas para sugerir interactividad
+      canvas.style.cursor = 'grab';
+
+      canvas.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        canvas.style.cursor = 'grabbing';
         previousMousePosition = { x: e.clientX, y: e.clientY };
       });
 
@@ -358,34 +539,8 @@ export function init3DScene() {
       window.addEventListener('mouseup', () => {
         if (isDragging) {
           isDragging = false;
-          heroSection.style.cursor = 'grab';
+          canvas.style.cursor = 'grab';
         }
-      });
-
-      // Eventos táctiles para móviles
-      heroSection.addEventListener('touchstart', (e) => {
-        if (e.target.closest('a') || e.target.closest('button')) return;
-        if (e.touches.length === 1) {
-          isDragging = true;
-          previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-        }
-      }, { passive: true });
-
-      window.addEventListener('touchmove', (e) => {
-        if (!isDragging || e.touches.length !== 1) return;
-        const deltaMove = {
-          x: e.touches[0].clientX - previousMousePosition.x,
-          y: e.touches[0].clientY - previousMousePosition.y
-        };
-
-        // Sumar rotación interactiva horizontal móvil con limitación física elástica a ±45 grados (~0.78 rad)
-        dragRotationY = Math.max(-0.78, Math.min(0.78, dragRotationY + deltaMove.x * 0.009));
-
-        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-      }, { passive: true });
-
-      window.addEventListener('touchend', () => {
-        isDragging = false;
       });
     }
 
@@ -394,7 +549,7 @@ export function init3DScene() {
       targetMouseY = -(e.clientY / window.innerHeight) * 2 + 1;
     });
 
-    const heroEl = document.getElementById('hero');
+    const heroEl = document.getElementById('hero') || document.getElementById('section-hero');
     let cachedDocHeight = 0;
     let isMobile = window.innerWidth <= 900;
     let heroThreshold = 0;
@@ -416,10 +571,30 @@ export function init3DScene() {
     };
 
     window.addEventListener('scroll', () => {
-      if (cachedDocHeight > 0) {
+      if (isHomePage && !isMobile && cachedDocHeight > 0) {
         scrollPercent = window.scrollY / cachedDocHeight;
+      } else {
+        scrollPercent = 0;
       }
-      updateCanvasVisibility();
+      
+      // Control de visibilidad del canvas en móvil al hacer scroll
+      if (isMobile) {
+        // Hitos de holgura: desvanecer canvas de forma instantánea al iniciar el scroll (80px)
+        if (window.scrollY > 80) {
+          if (isCanvasVisible) {
+            canvas.classList.add('hidden');
+            isCanvasVisible = false;
+            isTurbo = false; // Desactivar turbo si hace scroll
+          }
+        } else {
+          if (!isCanvasVisible) {
+            canvas.classList.remove('hidden');
+            isCanvasVisible = true;
+          }
+        }
+      } else {
+        updateCanvasVisibility();
+      }
     });
 
     const resizeCanvas = () => {
@@ -469,13 +644,22 @@ export function init3DScene() {
       // Actualizar uTime del shader de fondo
       bgMat.uniforms.uTime.value = time;
 
-      // A. Girar ruedas del kart constantemente
+      // A. Girar ruedas del kart constantemente y animar luces neon pulsantes
+      const wheelSpeed = isHomePage ? (isTurbo ? -0.45 : -0.18) : -0.32;
       wheels.forEach(wheel => {
-        wheel.rotateX(-0.18);
+        wheel.rotateX(wheelSpeed);
+      });
+      glowMeshes.forEach(mesh => {
+        if (mesh.material) {
+          mesh.material.emissiveIntensity = (isTurbo ? 4.5 : 2.2) + Math.sin(time * (isTurbo ? 9.0 : 3.0)) * (isTurbo ? 2.5 : 1.2);
+        }
       });
 
+      // Animar tira de luz led del suelo con efecto latido de competicion
+      stripMat.opacity = 0.45 + Math.sin(time * 2.0) * 0.20;
+
       // B. Flujo dinámico del Circuito de Velocidad Infinito (arcos y rejilla)
-      const baseFlowSpeed = 0.18;
+      const baseFlowSpeed = isHomePage ? (isTurbo ? 0.45 : 0.18) : (isTurbo ? 0.65 : 0.38);
       const speedMultiplier = 1.0 + Math.abs(scrollSpeed) * 35.0;
       const flow = baseFlowSpeed * speedMultiplier;
 
@@ -493,19 +677,26 @@ export function init3DScene() {
       if (studioGrid.position.z > 2) {
         studioGrid.position.z = 0;
       }
+      
+      dashes.forEach(dash => {
+        dash.position.z += flow * 1.5;
+        if (dash.position.z > 8) {
+          dash.position.z = -24;
+        }
+      });
       trackGroup.rotation.y = currentMouseX * 0.02;
 
       // Halo bajo el kart — pulso sutil y sincronización de posición para alineación perfecta
       haloMesh.position.x = kartGroup.position.x;
       haloMesh.position.z = kartGroup.position.z;
-      haloMesh.material.opacity = 0.06 + Math.sin(time * 1.2) * 0.04;
-      haloMesh.scale.setScalar(1.0 + Math.sin(time * 0.9) * 0.06);
+      haloMesh.material.opacity = (isTurbo ? 0.15 : 0.06) + Math.sin(time * 1.2) * 0.04;
+      haloMesh.scale.setScalar((isTurbo ? 1.25 : 1.0) + Math.sin(time * 0.9) * 0.06);
 
       // C. Partículas de polvo (drift muy lento, efecto estudio)
       const positions = speedParticles.geometry.attributes.position.array;
       for (let i = 0; i < particleCount; i++) {
-        // Movimiento sinusoidal muy suave hacia arriba
-        positions[i * 3 + 1] += 0.0015;
+        // Movimiento sinusoidal muy suave hacia arriba (más rápido en turbo)
+        positions[i * 3 + 1] += isTurbo ? 0.012 : 0.0015;
         positions[i * 3]     += Math.sin(time * 0.3 + i) * 0.0005;
         // Resetear cuando salen del campo visual
         if (positions[i * 3 + 1] > 5) {
@@ -516,23 +707,241 @@ export function init3DScene() {
       }
       speedParticles.geometry.attributes.position.needsUpdate = true;
 
+      // F. Actualizar partículas de fuego (Backfire de escape reactiva al scroll o turbo)
+      // Erupción basada en velocidad de scroll, turbo o pequeña llama ralentí
+      const currentScrollSpeedVal = Math.abs(scrollSpeed);
+      let flamesToEmit = 0;
+      if (isTurbo) {
+        // Emitir intensas llamas de escape en turbo
+        flamesToEmit = Math.random() < 0.85 ? 3 : 2;
+      } else if (!isHomePage) {
+        // En subpáginas, emitir llamas constantes de carrera de alta velocidad
+        flamesToEmit = Math.random() < 0.45 ? 2 : 1;
+      } else if (currentScrollSpeedVal > 0.0002) {
+        flamesToEmit = Math.min(8, Math.floor(currentScrollSpeedVal * 350) + 1);
+      } else if (Math.random() < 0.08) {
+        flamesToEmit = 1; // ralentí/chispa de motor encendido
+      }
+
+      // Emitir partículas
+      for (let k = 0; k < flamesToEmit; k++) {
+        // Encontrar una partícula inactiva
+        const p = flameParticles.find(part => !part.active);
+        if (p) {
+          p.active = true;
+          
+          // Posición local del escape (Z+ en modelo encarado en Math.PI)
+          const localPos = new THREE.Vector3(
+            (Math.random() - 0.5) * 0.05,
+            -0.05 + (Math.random() - 0.5) * 0.04, // Nivel de la salida de escape
+            1.25
+          );
+          
+          // Escalar la posición con el chasis del karting
+          localPos.multiplyScalar(kartGroup.scale.x);
+          localPos.applyEuler(kartGroup.rotation);
+          localPos.add(kartGroup.position);
+          
+          p.x = localPos.x;
+          p.y = localPos.y;
+          p.z = localPos.z;
+
+          // Velocidad hacia atrás (Z+ local) - mucho más rápido en Turbo
+          const localVel = new THREE.Vector3(
+            (Math.random() - 0.5) * 0.6,
+            (Math.random() - 0.5) * 0.3 + (isTurbo ? 0.3 : 0.1),
+            (isTurbo ? 3.5 : 1.4) + Math.random() * 2.5 + (currentScrollSpeedVal * 12.0)
+          );
+          localVel.applyEuler(kartGroup.rotation);
+          
+          p.vx = localVel.x;
+          p.vy = localVel.y;
+          p.vz = localVel.z;
+
+          p.life = 0;
+          p.maxLife = isTurbo ? (0.25 + Math.random() * 0.4) : (currentScrollSpeedVal > 0.0002 ? (0.2 + Math.random() * 0.35) : (0.1 + Math.random() * 0.15));
+        }
+      }
+
+      // Actualizar posiciones de las partículas de fuego activas
+      const flamePositionsArray = exhaustFlames.geometry.attributes.position.array;
+      const flameColorsArray = exhaustFlames.geometry.attributes.color.array;
+
+      for (let i = 0; i < flameMaxCount; i++) {
+        const p = flameParticles[i];
+        if (p.active) {
+          p.life += 0.016; // aprox 1 cuadro a 60fps
+          
+          if (p.life >= p.maxLife) {
+            p.active = false;
+            flamePositionsArray[i * 3 + 1] = -999; // Ocultar debajo de la escena
+          } else {
+            // Aplicar velocidad y fricción leve del aire
+            p.x += p.vx * 0.016;
+            p.y += p.vy * 0.016;
+            p.z += p.vz * 0.016;
+
+            p.vx *= 0.95;
+            p.vy *= 0.95;
+            p.vz *= 0.95;
+
+            flamePositionsArray[i * 3]     = p.x;
+            flamePositionsArray[i * 3 + 1] = p.y;
+            flamePositionsArray[i * 3 + 2] = p.z;
+
+            // Ciclo de color: Blanco -> Amarillo -> Naranja -> Rojo -> Negro (Fade)
+            const ratio = p.life / p.maxLife;
+            if (ratio < 0.15) {
+              // Blanco incandescente (Llama inicial)
+              flameColorsArray[i * 3]     = 1.0;
+              flameColorsArray[i * 3 + 1] = 1.0;
+              flameColorsArray[i * 3 + 2] = 0.9;
+            } else if (ratio >= 0.15 && ratio < 0.45) {
+              // Amarillo brillante
+              flameColorsArray[i * 3]     = 1.0;
+              flameColorsArray[i * 3 + 1] = 0.85;
+              flameColorsArray[i * 3 + 2] = 0.0;
+            } else if (ratio >= 0.45 && ratio < 0.75) {
+              // Naranja de combustión
+              flameColorsArray[i * 3]     = 0.95;
+              flameColorsArray[i * 3 + 1] = 0.35;
+              flameColorsArray[i * 3 + 2] = 0.0;
+            } else {
+              // Rojo y desvanecimiento final a humo oscuro
+              flameColorsArray[i * 3]     = 0.85 * (1.0 - ratio) / 0.25;
+              flameColorsArray[i * 3 + 1] = 0.05 * (1.0 - ratio) / 0.25;
+              flameColorsArray[i * 3 + 2] = 0.0;
+            }
+          }
+        }
+      }
+      exhaustFlames.geometry.attributes.position.needsUpdate = true;
+      exhaustFlames.geometry.attributes.color.needsUpdate = true;
+
+      // G. Emitir y actualizar chispas de derrape (Drift Sparks)
+      let sparksToEmit = 0;
+      if (isDragging && Math.abs(dragRotationY) > 0.08) {
+        sparksToEmit = Math.min(6, Math.floor(Math.abs(dragRotationY) * 22) + 1);
+      }
+
+      const currentScaleVal = kartGroup.scale.x;
+
+      for (let k = 0; k < sparksToEmit; k++) {
+        const side = k % 2 === 0 ? -1 : 1;
+        const p = sparkParticles.find(part => !part.active);
+        if (p) {
+          p.active = true;
+
+          const localPos = new THREE.Vector3(
+            side * 0.58,
+            -0.08,
+            0.75
+          );
+          localPos.multiplyScalar(currentScaleVal);
+          localPos.applyEuler(kartGroup.rotation);
+          localPos.add(kartGroup.position);
+
+          p.x = localPos.x;
+          p.y = localPos.y;
+          p.z = localPos.z;
+
+          const dragDir = dragRotationY > 0 ? 1 : -1;
+          const localVel = new THREE.Vector3(
+            (Math.random() - 0.2) * 2.2 * -dragDir * side,
+            0.8 + Math.random() * 1.5,
+            1.5 + Math.random() * 2.5
+          );
+          localVel.applyEuler(kartGroup.rotation);
+
+          p.vx = localVel.x;
+          p.vy = localVel.y;
+          p.vz = localVel.z;
+
+          p.life = 0;
+          p.maxLife = 0.15 + Math.random() * 0.25;
+          p.colorType = Math.random() < 0.5 ? 'cyan' : 'orange';
+        }
+      }
+
+      const sparkPositionsArray = driftSparks.geometry.attributes.position.array;
+      const sparkColorsArray = driftSparks.geometry.attributes.color.array;
+
+      for (let i = 0; i < sparkMaxCount; i++) {
+        const p = sparkParticles[i];
+        if (p.active) {
+          p.life += 0.016;
+
+          if (p.life >= p.maxLife) {
+            p.active = false;
+            sparkPositionsArray[i * 3 + 1] = -999;
+          } else {
+            p.x += p.vx * 0.016;
+            p.y += p.vy * 0.016;
+            p.z += p.vz * 0.016;
+
+            p.vy -= 4.2 * 0.016;
+            p.vx *= 0.94;
+            p.vz *= 0.94;
+
+            sparkPositionsArray[i * 3]     = p.x;
+            sparkPositionsArray[i * 3 + 1] = p.y;
+            sparkPositionsArray[i * 3 + 2] = p.z;
+
+            const ratio = p.life / p.maxLife;
+            const factor = 1.0 - ratio;
+            if (p.colorType === 'cyan') {
+              sparkColorsArray[i * 3]     = 0.0 * factor;
+              sparkColorsArray[i * 3 + 1] = 0.9 * factor;
+              sparkColorsArray[i * 3 + 2] = 1.0 * factor;
+            } else {
+              sparkColorsArray[i * 3]     = 1.0 * factor;
+              sparkColorsArray[i * 3 + 1] = 0.4 * factor;
+              sparkColorsArray[i * 3 + 2] = 0.0 * factor;
+            }
+          }
+        }
+      }
+      driftSparks.geometry.attributes.position.needsUpdate = true;
+      driftSparks.geometry.attributes.color.needsUpdate = true;
+
       // D. Cálculo de Órbita de Cámara y Foco según el SCROLL
+      if (!isHomePage || isMobile) {
+        scrollPercent = 0;
+      }
       scrollSpeed = scrollPercent - lastScrollPercent;
       lastScrollPercent = scrollPercent;
 
       let targetCamX = 0;
-      let targetCamY = 1.5;
-      let targetCamZ = 6.0;
+      let targetCamY = isTurbo ? 1.0 : 1.5;
+      let targetCamZ = isTurbo ? 4.2 : 6.0;
 
       let targetLookX = 0;
-      let targetLookY = 0.2;
+      let targetLookY = isTurbo ? 0.0 : 0.2;
       let targetLookZ = 0;
 
       let targetKartY = -2.09 + Math.sin(time * 2.5) * 0.008; // Suspensión sutil del motor al ralentí (8 milímetros)
       let targetKartRotX = -scrollSpeed * 8.0;       // Inclinación física de inercia longitudinal al acelerar
       let targetKartRotY = Math.PI - 0.4 + currentMouseX * 0.18; // Giro suave reactivo al ratón (volante)
-      let targetKartRotZ = scrollSpeed * 4.0 - currentMouseX * 0.08; // Inclinación lateral
+      let targetKartRotZ = scrollSpeed * 4.0 - currentMouseX * 0.08 - dragRotationY * 0.28; // Inclinación lateral con inercia de giro
       let targetScale = isMobile ? 0.65 : 1.0;
+
+      // Vibración del motor/chasis (se intensifica a 88Hz en turbo)
+      if (isTurbo) {
+        targetKartY += Math.sin(time * 88.0) * 0.015;
+        targetKartRotX += Math.cos(time * 78.0) * 0.012;
+      }
+
+      let subpageSwayX = 0;
+      let subpageSwayRotY = 0;
+      if (!isHomePage) {
+        // 1. Vibración de alta frecuencia (Motor Honda 270cc Rígido a altas revoluciones)
+        targetKartY += Math.sin(time * 52.0) * 0.005;
+        targetKartRotX += Math.cos(time * 44.0) * 0.004;
+
+        // 2. Vaivén de dirección automática (Sinuosidad en recta de pista)
+        subpageSwayX = Math.sin(time * 1.5) * 0.12; // Desplazamiento lateral de 12cm
+        subpageSwayRotY = Math.cos(time * 1.5) * 0.04; // Pequeño ajuste angular de dirección de llantas
+      }
 
       // Transición fluida por fases de órbita elíptica (Esquiva y Acompañamiento 3D Completo)
       const isDesk = !isMobile;
@@ -657,12 +1066,12 @@ export function init3DScene() {
       currentLookZ += (targetLookZ - currentLookZ) * lerpFactor;
 
       // Aplicar Lerp al KART (suspensión senoidal y rotaciones fijas)
-      kartGroup.position.x += (targetKartX - kartGroup.position.x) * 0.07;
+      const currentTargetKartX = targetKartX + subpageSwayX;
+      kartGroup.position.x += (currentTargetKartX - kartGroup.position.x) * 0.07;
       kartGroup.position.y += (targetKartY - kartGroup.position.y) * 0.07;
       kartGroup.position.z += (0 - kartGroup.position.z) * 0.07;
 
-      // Sumar rotación interactiva por arrastre (Drag-to-Rotate en eje Y)
-      const finalKartRotY = targetKartRotY + dragRotationY;
+      const finalKartRotY = targetKartRotY + dragRotationY + subpageSwayRotY;
 
       kartGroup.rotation.x += (targetKartRotX - kartGroup.rotation.x) * 0.07;
       kartGroup.rotation.y += (finalKartRotY - kartGroup.rotation.y) * 0.07;
@@ -683,7 +1092,9 @@ export function init3DScene() {
         finalCamX *= 0.35;
         finalLookX *= 0.35;
         if (isHomePage) {
-          finalCamY += 0.8;
+          // Si estamos en turbo boost, queremos una vista baja/trasera pura y cercana,
+          // de lo contrario aplicamos la compensación vertical estándar de centrado de 0.20
+          finalCamY += isTurbo ? 0.0 : 0.20; 
         }
       }
 

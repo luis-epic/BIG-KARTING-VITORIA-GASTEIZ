@@ -5,7 +5,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "mcp:auth": "notebooklm-mcp-auth",
+    "mcp:check": "python mcp_auth_helper.py",
+    "mcp:auth:force": "python mcp_auth_helper.py --force"
   },
   "dependencies": {
     "three": "^0.128.0",

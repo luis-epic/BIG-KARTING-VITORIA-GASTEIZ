@@ -53,11 +53,11 @@ body {
   width: 100vw;
   height: 100vh;
   z-index: 1;
-  pointer-events: none;
+  pointer-events: auto; /* Permitir interacciones táctiles y de ratón directamente en el canvas */
   background: transparent;
   opacity: 0;
-  /* Empezar oculto para fade-in premium */
-  transition: opacity 1.0s cubic-bezier(0.25, 1, 0.5, 1);
+  /* Empezar oculto para fade-in premium y desvanecido ultra rápido al hacer scroll */
+  transition: opacity 0.25s ease-out;
 }
 
 #hero-canvas.visible {
@@ -221,27 +221,44 @@ nav {
   background-color: var(--red);
 }
 
-/* Menú móvil Drawer */
+/* Menú móvil - Tarjeta Flotante Glassmorphic Premium */
 .nav-mobile-menu {
   position: fixed;
-  top: 0;
-  right: -100%;
-  width: 300px;
-  height: 100vh;
-  background: rgba(10, 10, 10, 0.98);
-  backdrop-filter: blur(20px);
+  top: 90px;
+  right: 20px;
+  left: 20px;
+  background: rgba(6, 3, 16, 0.9);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   z-index: 105;
   display: flex;
   flex-direction: column;
-  padding: 100px 30px 40px;
-  gap: 32px;
-  border-left: 1px solid rgba(255, 90, 0, 0.15);
-  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
-  transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 35px 30px;
+  gap: 28px;
+  border: 1px dashed rgba(255, 90, 0, 0.35); /* Borde de circuito tecnológico */
+  border-radius: 24px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8),
+              0 0 40px rgba(255, 90, 0, 0.12);
+  opacity: 0;
+  transform: translateY(-20px) scale(0.96);
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-mobile-menu.active {
-  right: 0;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* Micro-interactividad móvil táctil premium */
+.btn-primary:active,
+.btn-outline:active,
+.scrolly-modal-item:active,
+.nav-mobile-links a:active {
+  transform: scale(0.96) translateY(1px) !important;
+  filter: brightness(1.25);
+  transition: transform 0.1s ease;
 }
 
 .nav-mobile-links {
@@ -1942,13 +1959,21 @@ footer {
 }
 
 .loader-logo-img {
-  height: 130px;
-  width: auto;
+  width: 180px;
+  height: auto;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 90, 0, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
   display: inline-block;
-  mix-blend-mode: screen;
-  filter: brightness(1.25) contrast(1.1);
   margin-bottom: 35px;
   animation: loaderLogoGlow 2.5s infinite ease-in-out;
+}
+
+@media (max-width: 480px) {
+  .loader-logo-img {
+    width: 140px;
+    margin-bottom: 20px;
+  }
 }
 
 @keyframes loaderLogoGlow {
@@ -3280,26 +3305,48 @@ footer {
   transform: translateX(5px);
 }
 
-/* RESPONSIVE SCROLLYTELLING */
+/* RESPONSIVE SCROLLYTELLING - COMPACT SPLIT DE ALTA GAMA */
 @media (max-width: 900px) {
+  /* Cabecera fija de escenario 3D en la página de inicio en móviles */
+  body:not(.is-subpage) #hero-canvas {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 42vh !important; /* Reservamos el 42% de la pantalla para el visor 3D */
+    z-index: 10 !important;
+    pointer-events: auto !important;
+    background: #03030a !important; /* Fondo del escenario virtual */
+    border-bottom: 2px solid rgba(255, 90, 0, 0.25) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8) !important;
+  }
+
+  body:not(.is-subpage) main {
+    margin-top: 42vh !important; /* Desplaza el contenido para que empiece debajo del visor 3D */
+    position: relative;
+    z-index: 2;
+    background: var(--black);
+  }
+
   .natural-section {
-    min-height: auto;
-    padding: 80px 20px;
-    display: flex;
-    justify-content: center !important; /* Fuerza centrado en móvil */
-    background: rgba(6, 3, 16, 0.65);
-    pointer-events: auto;
+    min-height: auto !important; /* Evitamos vacíos gigantes en móvil */
+    padding: 35px 24px !important;
+    display: block !important;
+    background: var(--black) !important;
+    pointer-events: auto !important;
   }
-
+ 
   .natural-section-content {
-    max-width: 100%;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    background: rgba(8, 4, 18, 0.85);
-    padding: 30px 20px;
-    border-color: rgba(255, 255, 255, 0.08);
+    max-width: 100% !important;
+    margin-top: 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: transparent !important; /* Textos limpios y ultra legibles sobre el fondo negro */
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
   }
-
+ 
   .scroll-hint {
     display: none !important;
   }
