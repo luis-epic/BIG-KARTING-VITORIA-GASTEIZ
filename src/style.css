@@ -384,6 +384,7 @@ nav {
   gap: 16px;
   justify-content: flex-start;
   margin-top: 40px;
+  margin-bottom: 50px; /* Margen inferior para que en móvil no colisione con el scroll hint */
   animation: fadeSlideUp 0.8s 0.3s ease both;
 }
 
@@ -453,7 +454,7 @@ nav {
 /* Indicador de scroll */
 .scroll-hint {
   position: absolute;
-  bottom: 30px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
