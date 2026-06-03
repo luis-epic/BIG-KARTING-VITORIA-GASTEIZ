@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es" class="no-js">
+<head>
+  <link rel="icon" type="image/jpeg" href="/logo-negro.jpg">
+  <style>html,body{background-color:#03030a !important;} body{opacity:0;transition:opacity 0.25s ease-out;} body.loaded{opacity:1 !important;}</style>
+  <script>document.documentElement.classList.replace('no-js', 'js');</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Avanzado -->
+  <title>Blog de Karting Vitoria-Gasteiz | Consejos, Novedades y Drift | Big Karting</title>
+  <meta name="description" content="El blog oficial de Big Karting Vitoria-Gasteiz. Descubre consejos de trazado, guías de drift, seguridad infantil en karts y eventos de teambuilding para empresas.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://bigkartingvitoria.com/blog.html">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Blog de Karting Vitoria-Gasteiz | Consejos, Novedades y Drift | Big Karting">
+  <meta property="og:description" content="El blog oficial de Big Karting Vitoria-Gasteiz. Descubre consejos de trazado, guías de drift, seguridad infantil en karts y eventos de teambuilding para empresas.">
+  <meta property="og:image" content="/assets/hero_kart.png">
+  <meta property="og:url" content="https://bigkartingvitoria.com/blog.html">
+  <meta property="og:type" content="website">
+
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Exo+2:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <script type="module" src="/src/main.js"></script>
+
+  <!-- Schema.org Blog -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Blog de Big Karting",
+    "description": "Artículos sobre técnicas de karting, drift, seguridad infantil, eventos de empresa y análisis de karts.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Big Karting Vitoria-Gasteiz",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://bigkartingvitoria.com/logo-negro.jpg"
+      }
+    },
+    "url": "https://bigkartingvitoria.com/blog.html"
+  }
+  </script>
+</head>
+<body>
+
+<!-- Canvas global para Three.js WebGL -->
+<canvas id="hero-canvas" role="img" aria-label="Visualizador interactivo 3D de Big Karting"></canvas>
+
+<div id="cursor"></div>
+<div id="cursor-glow"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="/index.html" class="nav-logo-link"><img src="/logo-negro.jpg" alt="Big Karting Vitoria-Gasteiz" class="nav-logo-img"></a>
+  <ul class="nav-links">
+    <li><a href="/index.html#modalidades">Karting</a></li>
+    <li><a href="/grupos.html">Grupos</a></li>
+    <li><a href="/index.html#tarifas">Tarifas</a></li>
+    <li><a href="/index.html#horario">Horario</a></li>
+    <li><a href="/blog.html">Blog</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+  <a class="nav-phone" href="tel:+34685722119">📞 685 722 119</a>
+  
+  <div class="nav-hamburger" id="hamburgerBtn">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</nav>
+
+<!-- Menú móvil Drawer -->
+<div class="nav-mobile-menu" id="mobileMenu">
+  <ul class="nav-mobile-links">
+    <li><a href="/index.html#modalidades">Karting</a></li>
+    <li><a href="/grupos.html">Grupos</a></li>
+    <li><a href="/index.html#tarifas">Tarifas</a></li>
+    <li><a href="/index.html#horario">Horario</a></li>
+    <li><a href="/blog.html">Blog</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+  <a class="btn-primary" style="margin-top: 20px; text-align: center;" href="tel:+34685722119">📞 685 722 119</a>
+</div>
+
+<main>
+  <!-- subpage hero -->
+  <section id="hero" class="blog-hero">
+    <div class="hero-track"></div>
+    <div class="hero-content" style="margin-top: 60px;">
+      <div class="hero-eyebrow">Noticias & Consejos de Conducción</div>
+      <h1 class="hero-title" style="font-size: clamp(48px, 8vw, 100px); line-height: 1;">
+        <span class="line1">EL BLOG</span>
+        <span class="line2">DE BIG KARTING</span>
+      </h1>
+      <p class="hero-sub">Domina el asfalto indoor: guías de pilotaje, análisis técnico y todo sobre el motor en Vitoria-Gasteiz</p>
+    </div>
+  </section>
+
+  <!-- Grid de Artículos -->
+  <section style="background: rgba(17, 17, 17, 0.85); backdrop-filter: blur(8px); padding: 80px 40px;">
+    <div class="section-inner" style="max-width: 1200px; padding: 0;">
+      <div class="section-label">Últimas publicaciones</div>
+      <h2 class="section-title">BOXES DE <em>ADRENALINA</em></h2>
+      
+      <div class="blog-grid">
+        
+        <!-- CARD 1 -->
+        <article class="blog-card">
+          <div class="blog-card-img-wrapper">
+            <span class="blog-card-category">Técnica</span>
+            <img class="blog-card-img" src="/assets/carreras_kart.png" alt="Piloto de kart trazando una curva en circuito indoor">
+            <div class="blog-card-img-overlay"></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span>📅 03 Jun 2026</span>
+              <span>⏱️ 5 min lectura</span>
+            </div>
+            <a href="/blog/como-mejorar-tiempo-vuelta.html" class="blog-card-title">Cómo mejorar tu tiempo de vuelta en Vitoria: Consejos de trazada y frenada</a>
+            <p class="blog-card-desc">Bajar tus tiempos de vuelta requiere técnica y precisión. Analizamos los puntos clave de trazada, frenado y aceleración en nuestro circuito de Vitoria-Gasteiz.</p>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img class="blog-card-author-img" src="/logo-negro.jpg" alt="Logo Big Karting">
+                <span>Equipo Big Karting</span>
+              </div>
+              <a href="/blog/como-mejorar-tiempo-vuelta.html" class="blog-card-link">Leer más</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 2 -->
+        <article class="blog-card">
+          <div class="blog-card-img-wrapper">
+            <span class="blog-card-category">Drift</span>
+            <img class="blog-card-img" src="/assets/drift_kart.png" alt="Go-kart derrapando lateralmente en circuito cubierto">
+            <div class="blog-card-img-overlay"></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span>📅 28 May 2026</span>
+              <span>⏱️ 6 min lectura</span>
+            </div>
+            <a href="/blog/tecnicas-de-drift-karting.html" class="blog-card-title">Guía de Drift Karting: El arte del derrape controlado sobre asfalto indoor</a>
+            <p class="blog-card-desc">Conducir un kart de drift es lo más parecido a pilotar sobre hielo. Aprende las técnicas de sobreviraje, contravolante y dosificación de acelerador en el norte de España.</p>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img class="blog-card-author-img" src="/logo-negro.jpg" alt="Logo Big Karting">
+                <span>Instructor de Drift</span>
+              </div>
+              <a href="/blog/tecnicas-de-drift-karting.html" class="blog-card-link">Leer más</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 3 -->
+        <article class="blog-card">
+          <div class="blog-card-img-wrapper">
+            <span class="blog-card-category">Seguridad</span>
+            <img class="blog-card-img" src="/assets/infantil_kart.png" alt="Niño con casco en kart infantil homologado con cinturones y protecciones">
+            <div class="blog-card-img-overlay"></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span>📅 15 May 2026</span>
+              <span>⏱️ 4 min lectura</span>
+            </div>
+            <a href="/blog/seguridad-karting-infantil.html" class="blog-card-title">Seguridad en el karting infantil: Todo lo que debes saber como padre</a>
+            <p class="blog-card-desc">La diversión de los más jóvenes está ligada a una seguridad perimetral total. Analizamos los chasis adaptados, arneses y la supervisión de monitores profesionales.</p>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img class="blog-card-author-img" src="/logo-negro.jpg" alt="Logo Big Karting">
+                <span>Área Infantil</span>
+              </div>
+              <a href="/blog/seguridad-karting-infantil.html" class="blog-card-link">Leer más</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 4 -->
+        <article class="blog-card">
+          <div class="blog-card-img-wrapper">
+            <span class="blog-card-category">Eventos</span>
+            <img class="blog-card-img" src="/galeria_grupos.png" alt="Grupo de compañeros de empresa celebrando en el podio de Big Karting">
+            <div class="blog-card-img-overlay"></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span>📅 02 May 2026</span>
+              <span>⏱️ 5 min lectura</span>
+            </div>
+            <a href="/blog/teambuilding-karting-empresa.html" class="blog-card-title">Teambuilding en Vitoria: Por qué los karts mejoran el trabajo en equipo</a>
+            <p class="blog-card-desc">Descubre cómo las carreras de karts corporativas fomentan la comunicación, el liderazgo y la sana competitividad entre compañeros de trabajo en Álava.</p>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img class="blog-card-author-img" src="/logo-negro.jpg" alt="Logo Big Karting">
+                <span>Eventos Corporativos</span>
+              </div>
+              <a href="/blog/teambuilding-karting-empresa.html" class="blog-card-link">Leer más</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- CARD 5 -->
+        <article class="blog-card">
+          <div class="blog-card-img-wrapper">
+            <span class="blog-card-category">Karts</span>
+            <img class="blog-card-img" src="/assets/hero_kart.png" alt="Flota de karts Sodi RT8 de 270cc en la línea de pits listos para competir">
+            <div class="blog-card-img-overlay"></div>
+          </div>
+          <div class="blog-card-body">
+            <div class="blog-card-meta">
+              <span>📅 18 Abr 2026</span>
+              <span>⏱️ 5 min lectura</span>
+            </div>
+            <a href="/blog/guia-sodi-rt8-kart.html" class="blog-card-title">Análisis del Sodi RT8: El chasis de karting indoor más avanzado del mundo</a>
+            <p class="blog-card-desc">Estudiamos a fondo la tecnología detrás del Sodi RT8 de 270cc. Un repaso detallado de su motor Honda, aerodinámica de chasis y sistemas de protección perimetral.</p>
+            <div class="blog-card-footer">
+              <div class="blog-card-author">
+                <img class="blog-card-author-img" src="/logo-negro.jpg" alt="Logo Big Karting">
+                <span>Ingeniería Big Karting</span>
+              </div>
+              <a href="/blog/guia-sodi-rt8-kart.html" class="blog-card-link">Leer más</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="red-stripe"></div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">BIG<span>K</span>ARTING</div>
+      <p class="footer-brand-desc">Descubre la emoción del karting en Vitoria-Gasteiz. Adrenalina, velocidad y diversión para todos. ¡No te arrepentirás!</p>
+      <div class="social-links">
+        <a href="https://www.facebook.com/bigkarting" class="social-link" target="_blank" title="Facebook">f</a>
+        <a href="https://www.instagram.com/bigkartingvitoria/" class="social-link" target="_blank" title="Instagram">ig</a>
+        <a href="https://www.youtube.com/channel/UCjcW5SSmGKrC0IZ1gl5xSjA" class="social-link" target="_blank" title="YouTube">yt</a>
+        <a href="https://wa.me/34685722119" class="social-link" target="_blank" title="WhatsApp">wa</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Karting</div>
+      <ul class="footer-links">
+        <li><a href="/carreras.html">Karting en Vitoria</a></li>
+        <li><a href="/drift.html">Drift</a></li>
+        <li><a href="/carreras.html">Carreras</a></li>
+        <li><a href="/infantil.html">Karts infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Grupos</div>
+      <ul class="footer-links">
+        <li><a href="/grupos.html#despedidas">Despedidas</a></li>
+        <li><a href="/grupos.html#teambuilding">Teambuilding</a></li>
+        <li><a href="/grupos.html#cumpleanos">Cumpleaños</a></li>
+        <li><a href="/grupos.html#fiestas-infantiles">Fiestas infantiles</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="footer-col-title">Más info</div>
+      <ul class="footer-links">
+        <li><a href="/index.html#tarifas">Tarifas</a></li>
+        <li><a href="/tienda.html">Tienda online</a></li>
+        <li><a href="/index.html">Ocio en Vitoria</a></li>
+        <li><a href="/contacto.html">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Big Karting Vitoria-Gasteiz · Miñano Mayor, Álava</div>
+    <div class="footer-legal">
+      <a href="/legal.html#aviso-legal">Aviso Legal</a>
+      <a href="/legal.html#privacidad">Privacidad</a>
+      <a href="/legal.html#cookies">Cookies</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
